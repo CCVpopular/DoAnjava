@@ -24,7 +24,7 @@ function UpdateUser() {
         try {
             const token = localStorage.getItem("token");
             const response = await UserService.getUserById(userId, token); // Pass userId to getUserById
-            const { name, email, role, city } = response.ourUsers;
+            const { name, email, role, city } = response.user;
             setUserData({ name, email, role, city });
         } 
         catch (error) {
