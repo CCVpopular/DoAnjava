@@ -15,7 +15,7 @@ function UserManagementPage() {
             const token = localStorage.getItem("token"); // Retrieve the token from localStorage
             const response = await UserService.getAllUsers(token);
             //   console.log(response);
-            setUsers(response.ourUsersList); // Assuming the list of users is under the key 'ourUsersList'
+            setUsers(response.userList); // Assuming the list of users is under the key 'ourUsersList'
         } 
         catch (error) {
             console.error("Error fetching users:", error);
