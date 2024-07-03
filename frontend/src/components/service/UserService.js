@@ -6,6 +6,7 @@ class UserService{
     static async login(email, password){
         try{
             const response = await axios.post(`${UserService.BASE_URL}/auth/login`, {email, password})
+            this.notifySubscribers();
             return response.data;
 
         }catch(err){
@@ -13,12 +14,27 @@ class UserService{
         }
     }
 
-    static async register(userData, token){
+    static async register(userData){
         try{
-            const response = await axios.post(`${UserService.BASE_URL}/auth/register`, userData, 
-            {
-                headers: {Authorization: `Bearer ${token}`}
-            })
+            const response = await axios.post(`${UserService.BASE_URL}/auth/register`, userData)
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async ForgotPassword(email){
+        try{
+            const response = await axios.post(`${UserService.BASE_URL}/auth/forgotPassword`, {email})
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async ResetPassword(tokenPassword, newPassword){
+        try{
+            const response = await axios.post(`${UserService.BASE_URL}/auth/resetPassword`, {tokenPassword, newPassword})
             return response.data;
         }catch(err){
             throw err;
@@ -88,9 +104,12 @@ class UserService{
     }
 
     /**AUTHENTICATION CHECKER */
+    static subscribers = [];
+
     static logout(){
         localStorage.removeItem('token')
         localStorage.removeItem('role')
+        this.notifySubscribers();
     }
 
     static isAuthenticated(){
@@ -110,6 +129,19 @@ class UserService{
 
     static adminOnly(){
         return this.isAuthenticated() && this.isAdmin();
+    }
+
+    static subscribe(callback) {
+        this.subscribers.push(callback);
+        return {
+            unsubscribe: () => {
+                this.subscribers = this.subscribers.filter(sub => sub !== callback);
+            }
+        };
+    }
+
+    static notifySubscribers() {
+        this.subscribers.forEach(callback => callback());
     }
 
 }

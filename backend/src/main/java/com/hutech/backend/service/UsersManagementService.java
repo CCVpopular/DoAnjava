@@ -1,7 +1,10 @@
 package com.hutech.backend.service;
 
 import com.hutech.backend.dto.ReqRes;
+import com.hutech.backend.dto.resetP;
+import com.hutech.backend.entity.PasswordResetToken;
 import com.hutech.backend.entity.User;
+import com.hutech.backend.repository.PasswordResetTokenRepository;
 import com.hutech.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -9,9 +12,11 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UsersManagementService {
@@ -19,12 +24,19 @@ public class UsersManagementService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
+    private PasswordResetTokenRepository passwordResetTokenRepository;
+    @Autowired
     private JWTUtils jwtUtils;
     @Autowired
     private AuthenticationManager authenticationManager;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private EmailService emailService;
+
+    @Autowired
+    private PasswordResetTokenRepository tokenRepository;
 
     public ReqRes register(ReqRes registrationRequest){
         ReqRes resp = new ReqRes();
@@ -72,9 +84,50 @@ public class UsersManagementService {
         return response;
     }
 
+    public  ReqRes forgotPassword(ReqRes forgotPasswordRequest){
+        ReqRes response = new ReqRes();
+        try {
+            var user = userRepository.findByEmail(forgotPasswordRequest.getEmail()).orElseThrow(() -> new RuntimeException("User Not found"));
+            String token = UUID.randomUUID().toString();
+            PasswordResetToken resetToken = new PasswordResetToken();
+            resetToken.setToken(token);
+            resetToken.setUser(user);
+            resetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
+            tokenRepository.save(resetToken);
 
+            String resetLink = "http://localhost:3000/resetPassword?token=" + token;
+            emailService.sendEmail(user.getEmail(), "Reset Password", "Click the link to reset your password: " + resetLink);
 
+            response.setStatusCode(200);
+            response.setMessage("Password reset email sent");
+        }
+        catch (Exception e){
+            response.setStatusCode(500);
+            response.setError(e.getMessage());
+        }
+        return response;
+    }
 
+    public resetP resetPassword(resetP resetPasswordRequest){
+        resetP resetPassword = new resetP();
+        try {
+            var resetPass = passwordResetTokenRepository.findByToken(resetPasswordRequest.getTokenPassword()).orElseThrow(() -> new RuntimeException("Token Not found"));
+            if (resetPass.getExpiryDate().isBefore(LocalDateTime.now())) {
+                throw new RuntimeException("Token Expired");
+            }
+            var user = userRepository.findById(resetPass.getUser().getId()).orElseThrow(() -> new RuntimeException("User Not found"));
+            user.setPassword(passwordEncoder.encode(resetPasswordRequest.getNewPassword()));
+            passwordResetTokenRepository.delete(resetPass);
+            userRepository.save(user);
+            resetPassword.setStatusCode(200);
+            resetPassword.setMessage("Successfully Reset Password");
+        }
+        catch (Exception e){
+            resetPassword.setStatusCode(500);
+            resetPassword.setMessage(e.getMessage());
+        }
+        return resetPassword;
+    }
 
     public ReqRes refreshToken(ReqRes refreshTokenReqiest){
         ReqRes response = new ReqRes();

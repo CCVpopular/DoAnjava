@@ -23,8 +23,7 @@ function RegistrationPage() {
         try {
             // Call the register method from UserService
 
-            const token = localStorage.getItem('token');
-            await UserService.register(formData, token);
+            await UserService.register(formData);
 
             // Clear the form fields after successful registration
             setFormData({
@@ -35,7 +34,7 @@ function RegistrationPage() {
                 city: ''
             });
             alert('User registered successfully');
-            navigate('/admin/user-management');
+            navigate('/login');
 
         } catch (error) {
             console.error('Error registering user:', error);
