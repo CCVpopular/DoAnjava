@@ -4,7 +4,7 @@ const FooterComponent = () => {
     return (
         <div>
             <footer className='footer'>
-                <span>hehehhehehehheheheh &copy; {new Date().getFullYear()} </span>
+                <span>Team DAJAVA:Phu-Dat-Hien-Bich &copy; {new Date().getFullYear()} </span>
             </footer>
         </div>
     )
