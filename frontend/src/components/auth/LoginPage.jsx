@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
+import { Link } from 'react-router-dom';
 
 
 function LoginPage(){
@@ -72,6 +73,13 @@ const handleSubmit = async (e) => {
                         </div>
                     </div>
                 </div>
+                <div className="form-group">
+                    <label>Password: </label>
+                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                </div>
+                <button type="submit">Login</button>
+            </form>
+            <button><Link to={`/forgotPassword`}>Quen Mat Khau</Link></button>
             </div>
         </div>
     )

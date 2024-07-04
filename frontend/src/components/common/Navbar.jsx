@@ -1,12 +1,23 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import UserService from '../service/UserService';
 
 function Navbar() {
-    const isAuthenticated = UserService.isAuthenticated();
-    const isAdmin = UserService.isAdmin();
+    const [isAuthenticated, setIsAuthenticated] = useState(UserService.isAuthenticated());
+    const [isAdmin, setIsAdmin] = useState(UserService.isAdmin());
 
+    useEffect(() => {
+        const handleAuthChange = () => {
+            setIsAuthenticated(UserService.isAuthenticated());
+            setIsAdmin(UserService.isAdmin());
+        };
 
+        const subscription = UserService.subscribe(handleAuthChange);
+
+        return () => {
+            subscription.unsubscribe();
+        };
+    }, []);
 
     const handleLogout = () => {
         const confirmDelete = window.confirm('Are you sure you want to logout this user?');
