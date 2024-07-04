@@ -18,7 +18,7 @@ const handleSubmit = async (e) => {
         if (userData.token) {
             localStorage.setItem('token', userData.token)
             localStorage.setItem('role', userData.role)
-            navigate('/profile')
+            navigate('/chatroom')
         }else{
             setError(userData.message)
         }
