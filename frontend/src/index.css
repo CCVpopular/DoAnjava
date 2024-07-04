@@ -339,6 +339,17 @@ form button:hover {
    text-align: center;
 }
 
+.forgotPasswordBtn{
+    border: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+.divForgotPassword {
+   text-align: center;
+   padding: 10px;
+}
+
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
     .navbar :is(.menu-btn, .links .close-btn){
