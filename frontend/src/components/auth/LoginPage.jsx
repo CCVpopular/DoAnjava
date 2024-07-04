@@ -67,23 +67,16 @@ const handleSubmit = async (e) => {
                                 Login with Google
                             </button>
                         </form>
+                        <button><Link to={`/forgotPassword`}>Quen Mat Khau</Link></button>
                         <div class="bottom-link">
                             Don't have an account?
                             <a href="https://github.com/CCVpopular/DoAnjava" id="signup-link">Signup</a>
                         </div>
                     </div>
                 </div>
-                <div className="form-group">
-                    <label>Password: </label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <button><Link to={`/forgotPassword`}>Quen Mat Khau</Link></button>
             </div>
         </div>
     )
-
 }
 
 export default LoginPage;
