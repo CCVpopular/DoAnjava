@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import {over} from 'stompjs';
 import SockJS from 'sockjs-client';
+import UserService from '../service/UserService';
+
 
 var stompClient =null;
 const ChatRoom = () => {
@@ -12,10 +14,24 @@ const ChatRoom = () => {
         receivername: '',
         connected: false,
         message: ''
-      });
+    });
     useEffect(() => {
-      console.log(userData);
-    }, [userData]);
+        fetchProfileInfo();
+    }, []);
+
+    const fetchProfileInfo = async () => {
+        try {
+            const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+            const response = UserService.getYourProfile(token);
+            // const {value}= response.name;
+            // setUserData({...userData,"username": value});
+            setUserData({...userData,"username": response.name});
+            console.log(userData);
+            connect();
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     const connect =()=>{
         let Sock = new SockJS('http://localhost:8080/ws');
@@ -40,6 +56,7 @@ const ChatRoom = () => {
 
     const onMessageReceived = (payload)=>{
         var payloadData = JSON.parse(payload.body);
+        // eslint-disable-next-line default-case
         switch(payloadData.status){
             case "JOIN":
                 if(!privateChats.get(payloadData.senderName)){
@@ -108,24 +125,25 @@ const ChatRoom = () => {
         }
     }
 
-    const handleUsername=(event)=>{
-        const {value}=event.target;
-        setUserData({...userData,"username": value});
-    }
+    // const handleUsername=(event)=>{
+    //     const {value}=event.target;
+    //     setUserData({...userData,"username": value});
+    // }
 
-    const registerUser=()=>{
-        connect();
-    }
+    // const registerUser=()=>{
+    //     connect();
+    // }
     return (
     <div className="container">
-        {userData.connected?
+        {
+        userData.connected?
         <div className="chat-box">
             <div className="member-list">
                 <ul>
                     <li onClick={()=>{setTab("CHATROOM")}} className={`member ${tab==="CHATROOM" && "active"}`}>Chatroom</li>
                     {[...privateChats.keys()].map((name,index)=>(
                         <li onClick={()=>{setTab(name)}} className={`member ${tab===name && "active"}`} key={index}>{name}</li>
-                    ))}
+                    ))} 
                 </ul>
             </div>
             {tab==="CHATROOM" && <div className="chat-content">
@@ -162,19 +180,8 @@ const ChatRoom = () => {
             </div>}
         </div>
         :
-        <div className="register">
-            <input
-                id="user-name"
-                placeholder="Enter your name"
-                name="userName"
-                value={userData.username}
-                onChange={handleUsername}
-                margin="normal"
-              />
-              <button type="button" onClick={registerUser}>
-                    connect
-              </button> 
-        </div>}
+            <div></div>
+        }
     </div>
     )
 }
