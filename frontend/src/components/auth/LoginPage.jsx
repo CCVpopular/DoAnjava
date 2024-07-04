@@ -35,13 +35,43 @@ const handleSubmit = async (e) => {
 
 
     return(
-        <div className="auth-container">
-            <h2>Login</h2>
-            {error && <p className="error-message">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email: </label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <div className="auth-container ">
+            <div className="blur-bg-overlay"></div>
+            <div className="form-popup">
+                <span class="close-btn material-symbols-outlined">
+                    close
+                </span>
+                <div class="form-box login">
+                    <div class="form-details">
+                        <h2>Wellcome Back</h2>
+                        <p>Please log in to start messaging.</p>
+                    </div>
+                    <div class="form-content">
+                        <h2>LOGIN</h2>
+                        {error && <p className="error-message">{error}</p>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-field">
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                                <label>Email: </label>
+                            </div>
+                            <div className="input-field">
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                                <label>Password: </label>
+                            </div>
+                            <a href="https://github.com/CCVpopular/DoAnjava" class="forgot-pass">Forgot password</a>
+                            <button type="submit">Login</button>
+                            <button class="loginBtn loginBtn--facebook">
+                                Login with Facebook
+                            </button>
+                            <button class="loginBtn loginBtn--google">
+                                Login with Google
+                            </button>
+                        </form>
+                        <div class="bottom-link">
+                            Don't have an account?
+                            <a href="https://github.com/CCVpopular/DoAnjava" id="signup-link">Signup</a>
+                        </div>
+                    </div>
                 </div>
                 <div className="form-group">
                     <label>Password: </label>
@@ -50,6 +80,7 @@ const handleSubmit = async (e) => {
                 <button type="submit">Login</button>
             </form>
             <button><Link to={`/forgotPassword`}>Quen Mat Khau</Link></button>
+            </div>
         </div>
     )
 
