@@ -44,8 +44,7 @@ public class UsersManagementService {
         try {
             User user = new User();
             user.setEmail(registrationRequest.getEmail());
-            user.setCity(registrationRequest.getCity());
-            user.setRole(registrationRequest.getRole());
+            user.setRole("USER");
             user.setName(registrationRequest.getName());
             user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
             User UsersResult = userRepository.save(user);
@@ -217,7 +216,6 @@ public class UsersManagementService {
                 User existingUser = userOptional.get();
                 existingUser.setEmail(updatedUser.getEmail());
                 existingUser.setName(updatedUser.getName());
-                existingUser.setCity(updatedUser.getCity());
                 existingUser.setRole(updatedUser.getRole());
 
                 // Check if password is present in the request

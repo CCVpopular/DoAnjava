@@ -11,8 +11,7 @@ function UpdateUser() {
         {
             name: '',
             email: '',
-            role: '',
-            city: ''
+            role: ''
         }
     );
 
@@ -24,8 +23,8 @@ function UpdateUser() {
         try {
             const token = localStorage.getItem("token");
             const response = await UserService.getUserById(userId, token); // Pass userId to getUserById
-            const { name, email, role, city } = response.user;
-            setUserData({ name, email, role, city });
+            const { name, email, role } = response.user;
+            setUserData({ name, email, role });
         } 
         catch (error) {
             console.error("Error fetching user data:", error);
@@ -73,10 +72,6 @@ return (
                         <div className="input-field">
                             <input type="email" name="email" value={userData.email} onChange={handleInputChange} />
                             <label>Email:</label>
-                        </div>
-                        <div className="input-field">
-                            <input type="text" name="city" value={userData.city} onChange={handleInputChange} />
-                            <label>Thành phố:</label>
                         </div>
                         <button type="submit">Xác nhận</button>
                     </form>

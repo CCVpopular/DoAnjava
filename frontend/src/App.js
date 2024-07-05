@@ -27,24 +27,25 @@ function App() {
           <Routes>
             <Route exact path="/" element={<LoginPage />} />
             <Route exact path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
-
-            <Route path="/chatroom" element={<ChatRoom/>}/>
-
             <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
             <Route path="/resetPassword" element={<ResetPassword />} />
             <Route exact path="/register" element={<RegistrationPage />} />
 
+            {UserService.isAuthenticated() && (
+              <>
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/chatroom" element={<ChatRoom/>}/>
+              </>
+            )}
 
-            {/* Check if user is authenticated and admin before rendering admin-only routes */}
+
             {UserService.adminOnly() && (
               <>
-
                 <Route path="/admin/user-management" element={<UserManagementPage />} />
                 <Route path="/update-user/:userId" element={<UpdateUser />} />
               </>
             )}
-            <Route path="*" element={<Navigate to="/login" />} />‰
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <FooterComponent />
