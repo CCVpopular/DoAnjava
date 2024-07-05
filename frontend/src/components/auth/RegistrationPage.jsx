@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import UserService from '../service/UserService';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function RegistrationPage() {
     const navigate = useNavigate();
@@ -44,30 +45,50 @@ function RegistrationPage() {
 
     return (
         <div className="auth-container">
-            <h2>Registration</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Name:</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+            <div className="blur-bg-overlay"></div>
+            <div className="form-popup">
+                <div>
+                    <Link to={`/login`}><span class="close-btn material-symbols-outlined">Close</span></Link>
                 </div>
-                <div className="form-group">
-                    <label>Email:</label>
-                    <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
+                <div class="form-box signup">
+                    <div class="form-details">
+                        <h2>Tạo tài khoản mới !</h2>
+                        <p>Hãy tạo tài khoản mới đã cùng nhắn tin nào.</p>
+                    </div>
+                    <div class="form-content">
+                        <h2>Tại tài khoản mới</h2>
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-field">
+                                <input type="text" name="name" value={formData.name} onChange={handleInputChange} required />
+                                <label>Họ tên</label>
+                            </div>
+                            <div className="input-field">
+                                <input type="email" name="email" value={formData.email} onChange={handleInputChange} required />
+                                <label>Email</label>
+                            </div>
+                            <div className="input-field">
+                                <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
+                                <label>Mật khẩu</label>
+                            </div>
+                            <div className="input-field">
+                                <input type="text" name="role" value={formData.role} onChange={handleInputChange} required />
+                                <label>Quyền</label>
+                                {/* placeholder="Enter your role" */}
+                            </div>
+                            <div className="input-field">
+                                <input type="text" name="city" value={formData.city} onChange={handleInputChange} required />
+                                <label>Thành phố</label>
+                                {/* placeholder="Enter your city" */}
+                            </div>
+                            <button type="submit">Đăng ký</button>
+                        </form>
+                        <div class="bottom-link ">
+                            Bạn đã có tài khoản ?
+                            <Link to={`/`}> Đăng nhập tài khoản</Link>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Password:</label>
-                    <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
-                </div>
-                <div className="form-group">
-                    <label>Role:</label>
-                    <input type="text" name="role" value={formData.role} onChange={handleInputChange} placeholder="Enter your role" required />
-                </div>
-                <div className="form-group">
-                    <label>City:</label>
-                    <input type="text" name="city" value={formData.city} onChange={handleInputChange} placeholder="Enter your city" required />
-                </div>
-                <button type="submit">Register</button>
-            </form>
+            </div>    
         </div>
     );
 }

@@ -43,7 +43,7 @@ function Navbar() {
                 {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
             </ul>
             <button class="login-btn">
-                LOGIN
+                HelloWord
             </button>
             {/* <ul>
                 {!isAuthenticated && <li><Link to="/">Home</Link></li>}

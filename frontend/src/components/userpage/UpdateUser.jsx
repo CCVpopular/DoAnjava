@@ -61,26 +61,28 @@ function UpdateUser() {
 
 return (
     <div className="auth-container">
-    <h2>Update User</h2>
-    <form onSubmit={handleSubmit}>
-        <div className="form-group">
-        <label>Name:</label>
-        <input type="text" name="name" value={userData.name} onChange={handleInputChange} />
+        <div className="form-popup">
+            <div class="form-box updateUser">
+                <div class="form-content">
+                    <h2>Cập nhật thông tin người dùng</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div className="input-field">
+                            <input type="text" name="name" value={userData.name} onChange={handleInputChange} />
+                            <label>Họ Tên:</label>
+                        </div>
+                        <div className="input-field">
+                            <input type="email" name="email" value={userData.email} onChange={handleInputChange} />
+                            <label>Email:</label>
+                        </div>
+                        <div className="input-field">
+                            <input type="text" name="city" value={userData.city} onChange={handleInputChange} />
+                            <label>Thành phố:</label>
+                        </div>
+                        <button type="submit">Xác nhận</button>
+                    </form>
+                </div>
+            </div>
         </div>
-        <div className="form-group">
-        <label>Email:</label>
-        <input type="email" name="email" value={userData.email} onChange={handleInputChange} />
-        </div>
-        <div className="form-group">
-        <label>Role:</label>
-        <input type="text" name="role" value={userData.role} onChange={handleInputChange} />
-        </div>
-        <div className="form-group">
-        <label>City:</label>
-        <input type="text" name="city" value={userData.city} onChange={handleInputChange} />
-        </div>
-        <button type="submit">Update</button>
-    </form>
     </div>
 );
 }

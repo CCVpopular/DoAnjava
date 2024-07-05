@@ -132,7 +132,7 @@ header {
 /* edit form-popup (all form login) */
 .form-popup{
     position: fixed;
-    top: 80%;
+    top: 90%;
     left: 50%;
     max-width: 720px;
     width: 100%;
@@ -206,14 +206,14 @@ header {
 /* edit padding */
 .form-box .form-content {
     width: 100%;
-    padding: 35px;
+    padding: 30px;
 }
 
 /* edit input-field */
 form .input-field {
     height: 50px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     position: relative;
 }
 
@@ -306,10 +306,10 @@ form button:hover {
 }
 
 /* hidden form sign up */
-.form-popup .signup,
-.form-popup.show-signup .login {
-    display: none;
-}
+/* .form-popup .signup,
+.form-popup.show-signup .login { */
+    /* display: none; */
+/* } */
 
 /* hidden form sign up */
 .form-popup.show-signup .signup {
@@ -329,14 +329,114 @@ form button:hover {
     margin-right: 7px;
 }
 
+/* edit footer */
 .footer {
     position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: none;
-   color: white;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: none;
+    color: white;
+    text-align: center;
+}
+
+/* edit button forgot password */
+.forgotPasswordBtn{
+    border: none;
+    background-color: white;
+    font-size: 0.95rem;
+}
+
+/* edit div ForgotPassword */
+.divForgotPassword {
    text-align: center;
+   padding: 10px;
+}
+
+/* edit size text signup */
+.signup{
+    font-size: 0.90rem;
+    height: 550px;
+}
+/* ============================================================== form forgot pass, send email ============================================================== */
+ .card {
+    width: 400px;
+    height: 234px;
+    color: white;
+    top: 30%;
+    left: 37%;
+    position: fixed;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    /* display: block;
+    flex-direction: column; */
+    padding: 30px 40px;
+}
+.card h2,p {
+    text-align: center;
+}
+
+.card .close-btn{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+/* ========================================================== form profile user ========================================================== */
+.profile-page-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 720px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    transform: translate(-50%, -100%);
+}
+
+.profile-page-container h2 {
+    text-align: center;
+    padding: 10px;
+}
+
+.profile-page-container .profileText {
+    font-size: 1rem;
+    padding-bottom: 10px;
+}
+
+/* edit update profile button in profile user */
+.profile-page-container .profileBtn {
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    transition: 0.2s ease;
+}
+
+.profile-page-container .profileLinkUpdateUser {
+    text-decoration: none;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-page-container .profileBtn {
+    position:relative;
+    top:50%; 
+    left:0;
+    margin: 5px;
 }
 
 /* edit navbar will be hidden when max-width: 950px */
@@ -393,6 +493,20 @@ form button:hover {
 
     .form-box .form-content {
         padding: 30px 20px;
+    }
+
+    .card {
+        width: 95%;
+        min-height: 300px;
+        position: fixed;
+        padding: 20px 10px;
+        font-size: 1.4rem;
+        top: 30%;
+        left: 3%;
+    }
+
+    .card h2 {
+        padding-top: 10px;
     }
 }
 
