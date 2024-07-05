@@ -17,6 +17,8 @@ const handleSubmit = async (e) => {
         const userData = await UserService.login(email, password)
         console.log(userData)
         if (userData.token) {
+            localStorage.setItem('token', userData.token);
+            localStorage.setItem('role', userData.role);
             navigate('/chatroom')
         }else{
             setError(userData.message)
