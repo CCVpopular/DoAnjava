@@ -20,6 +20,7 @@ const handleSubmit = async (e) => {
             localStorage.setItem('token', userData.token);
             localStorage.setItem('role', userData.role);
             navigate('/chatroom')
+            window.location.reload();
         }else{
             setError(userData.message)
         }
