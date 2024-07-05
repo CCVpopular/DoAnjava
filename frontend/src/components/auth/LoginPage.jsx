@@ -71,7 +71,7 @@ const handleSubmit = async (e) => {
                         </div>
                         <div class="bottom-link">
                             Bạn có tài khoản không ?
-                            <a href="https://github.com/CCVpopular/DoAnjava" id="signup-link"> Tạo tài khoản mới</a>
+                            <Link to={`/register`}>Tạo tài khoản mới</Link>
                         </div>
                     </div>
                 </div>

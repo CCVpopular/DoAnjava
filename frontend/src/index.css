@@ -132,7 +132,7 @@ header {
 /* edit form-popup (all form login) */
 .form-popup{
     position: fixed;
-    top: 80%;
+    top: 90%;
     left: 50%;
     max-width: 720px;
     width: 100%;
@@ -206,14 +206,14 @@ header {
 /* edit padding */
 .form-box .form-content {
     width: 100%;
-    padding: 35px;
+    padding: 30px;
 }
 
 /* edit input-field */
 form .input-field {
     height: 50px;
     width: 100%;
-    margin-top: 20px;
+    margin-top: 15px;
     position: relative;
 }
 
@@ -308,7 +308,7 @@ form button:hover {
 /* hidden form sign up */
 .form-popup .signup,
 .form-popup.show-signup .login {
-    display: none;
+    /* display: none; */
 }
 
 /* hidden form sign up */
@@ -331,12 +331,12 @@ form button:hover {
 
 .footer {
     position: fixed;
-   left: 0;
-   bottom: 0;
-   width: 100%;
-   background-color: none;
-   color: white;
-   text-align: center;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: none;
+    color: white;
+    text-align: center;
 }
 
 .forgotPasswordBtn{
@@ -348,6 +348,11 @@ form button:hover {
 .divForgotPassword {
    text-align: center;
    padding: 10px;
+}
+
+.signup{
+    font-size: 0.90rem;
+    height: 550px;
 }
 
 /* edit navbar will be hidden when max-width: 950px */
