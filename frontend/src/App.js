@@ -33,12 +33,10 @@ function App() {
               <Route path="/resetPassword" element={<ResetPassword />} />
               <Route exact path="/register" element={<RegistrationPage />} />
               <Route path="*" element={<Navigate to="/login" />} />
-              <Route path="/chatroom" element={<ChatRoom/>}/>
               </>
             )}
             {UserService.isAuthenticated() && (
               <>
-                <Route path="/" element={<LoginPage />} />
                 <Route path="/forgotPassword" element={<Navigate to="/chatroom" />} />
                 <Route path="/resetPassword" element={<Navigate to="/chatroom" />} />
                 <Route exact path="/register" element={<Navigate to="/chatroom" />} />

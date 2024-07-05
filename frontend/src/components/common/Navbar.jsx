@@ -23,6 +23,7 @@ function Navbar() {
         const confirmDelete = window.confirm('Are you sure you want to logout this user?');
         if (confirmDelete) {
             UserService.logout();
+            window.location.reload();
         }
     };
 
