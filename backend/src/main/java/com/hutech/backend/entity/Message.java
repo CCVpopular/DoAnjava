@@ -1,5 +1,6 @@
 package com.hutech.backend.entity;
 
+import jakarta.persistence.*;
 import lombok.*;
 
 
@@ -8,7 +9,13 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
+@Entity
+@Table(name = "message")
 public class Message {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String senderName;
     private String receiverName;
     private String message;
