@@ -47,7 +47,7 @@ const handleSubmit = async (e) => {
                         <p>Để bắt đầu "CHAT CHIT" vui lòng đăng nhập tài khoản.</p>
                     </div>
                     <div class="form-content">
-                        <h2>Đăng ký</h2>
+                        <h2>Đăng Nhập</h2>
                         {error && <p className="error-message">{error}</p>}
                         <form onSubmit={handleSubmit}>
                             <div className="input-field">
