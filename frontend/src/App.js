@@ -12,6 +12,10 @@ import ProfilePage from './components/userpage/ProfilePage';
 import ChatRoom  from './components/chatroom/ChatRoom';
 
 
+import ForgotPasswordPage from './components/auth/ForgotPasswordPage';
+import ResetPassword from './components/auth/ResetPassword';
+
+
 
 function App() {
 
@@ -24,12 +28,18 @@ function App() {
             <Route exact path="/" element={<LoginPage />} />
             <Route exact path="/login" element={<LoginPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+
             <Route path="/chatroom" element={<ChatRoom/>}/>
+
+            <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+            <Route path="/resetPassword" element={<ResetPassword />} />
+            <Route exact path="/register" element={<RegistrationPage />} />
+
 
             {/* Check if user is authenticated and admin before rendering admin-only routes */}
             {UserService.adminOnly() && (
               <>
-                <Route path="/register" element={<RegistrationPage />} />
+
                 <Route path="/admin/user-management" element={<UserManagementPage />} />
                 <Route path="/update-user/:userId" element={<UpdateUser />} />
               </>

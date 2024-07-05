@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { useNavigate } from "react-router-dom";
 import UserService from "../service/UserService";
+import { Link } from 'react-router-dom';
 
 
 function LoginPage(){
@@ -34,23 +35,49 @@ const handleSubmit = async (e) => {
 
 
     return(
-        <div className="auth-container">
-            <h2>Login</h2>
-            {error && <p className="error-message">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email: </label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+        <div className="auth-container ">
+            <div className="blur-bg-overlay"></div>
+            <div className="form-popup">
+                {/* <span class="close-btn material-symbols-outlined">
+                    close
+                </span> */}
+                <div class="form-box login">
+                    <div class="form-details">
+                        <h2>Chào mừng !</h2>
+                        <p>Để bắt đầu "CHAT CHIT" vui lòng đăng nhập tài khoản.</p>
+                    </div>
+                    <div class="form-content">
+                        <h2>Đăng ký</h2>
+                        {error && <p className="error-message">{error}</p>}
+                        <form onSubmit={handleSubmit}>
+                            <div className="input-field">
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                                <label>Email </label>
+                            </div>
+                            <div className="input-field">
+                                <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required/>
+                                <label>Mật Khẩu </label>
+                            </div>
+                            <button type="submit">Đăng nhập</button>
+                            <button class="loginBtn loginBtn--facebook">
+                                Đăng nhập Facebook
+                            </button>
+                            <button class="loginBtn loginBtn--google">
+                                Đăng nhập Google
+                            </button>
+                        </form>
+                        <div className="divForgotPassword">
+                            <button class="forgotPasswordBtn"><Link to={`/forgotPassword`}>Quên Mật Khẩu</Link></button>
+                        </div>
+                        <div class="bottom-link">
+                            Bạn có tài khoản không ?
+                            <Link to={`/register`}>Tạo tài khoản mới</Link>
+                        </div>
+                    </div>
                 </div>
-                <div className="form-group">
-                    <label>Password: </label>
-                    <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-                </div>
-                <button type="submit">Login</button>
-            </form>
+            </div>
         </div>
     )
-
 }
 
 export default LoginPage;
