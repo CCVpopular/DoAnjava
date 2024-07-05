@@ -38,9 +38,9 @@ const handleSubmit = async (e) => {
         <div className="auth-container ">
             <div className="blur-bg-overlay"></div>
             <div className="form-popup">
-                <span class="close-btn material-symbols-outlined">
+                {/* <span class="close-btn material-symbols-outlined">
                     close
-                </span>
+                </span> */}
                 <div class="form-box login">
                     <div class="form-details">
                         <h2>Chào mừng !</h2>

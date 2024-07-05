@@ -354,6 +354,49 @@ form button:hover {
     font-size: 0.90rem;
     height: 550px;
 }
+/* ============================================================== form forgot pass, send email ============================================================== */
+ .card {
+    width: 400px;
+    height: 234px;
+    color: white;
+    top: 30%;
+    left: 37%;
+    position: fixed;
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    background-color: rgba(0, 0, 0, 0.75);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.125);
+    /* display: block;
+    flex-direction: column; */
+    padding: 30px 40px;
+}
+.card h2,p {
+    text-align: center;
+}
+
+.card .close-btn{
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+}
+
+.lock-icon {
+    font-size: 3rem;
+}
+
+/* .passInput {
+    margin-top: 15px;
+    width: 80%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid deepskyblue;
+    font-size: 15px;
+    color: white;
+    outline: none;
+} */
 
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
@@ -409,6 +452,20 @@ form button:hover {
 
     .form-box .form-content {
         padding: 30px 20px;
+    }
+
+    .card {
+        width: 95%;
+        min-height: 300px;
+        position: fixed;
+        padding: 20px 10px;
+        font-size: 1.4rem;
+        top: 30%;
+        left: 3%;
+    }
+
+    .card h2 {
+        padding-top: 10px;
     }
 }
 

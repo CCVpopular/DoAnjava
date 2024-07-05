@@ -47,9 +47,9 @@ function RegistrationPage() {
         <div className="auth-container">
             <div className="blur-bg-overlay"></div>
             <div className="form-popup">
-                <span class="close-btn material-symbols-outlined">
-                    close
-                </span>
+                <div>
+                    <Link to={`/login`}><span class="close-btn material-symbols-outlined">Close</span></Link>
+                </div>
                 <div class="form-box signup">
                     <div class="form-details">
                         <h2>Tạo tài khoản mới !</h2>
@@ -82,9 +82,6 @@ function RegistrationPage() {
                             </div>
                             <button type="submit">Đăng ký</button>
                         </form>
-                        <div className="divForgotPassword">
-                            <button class="forgotPasswordBtn"><Link to={`/forgotPassword`}>Quên Mật Khẩu</Link></button>
-                        </div>
                         <div class="bottom-link ">
                             Bạn đã có tài khoản ?
                             <Link to={`/`}> Đăng nhập tài khoản</Link>

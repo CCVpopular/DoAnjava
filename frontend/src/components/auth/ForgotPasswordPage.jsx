@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import UserService from "../service/UserService";
+import { Link } from 'react-router-dom';
 
 function ForgotPasswordPage(){
 const [email, setEmail] = useState('')
@@ -28,15 +29,22 @@ const handleSubmit = async (e) => {
 
     return(
         <div className="auth-container">
-            <h2>Login</h2>
-            {error && <p className="error-message">{error}</p>}
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label>Email: </label>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+            <div class="card">
+                <div>
+                    <Link to={`/login`}><span class="close-btn material-symbols-outlined">Close</span></Link>
                 </div>
-                <button type="submit">Gui Link</button>
-            </form>
+                <p class="lock-icon"><i> </i></p>
+                <h2>Quên mật khẩu?</h2>
+                <p>Nhập email để nhận mail reset mật khẩu.</p>
+                {error && <p className="error-message">{error}</p>}
+                <form onSubmit={handleSubmit}>
+                    <div className="input-field">
+                        <input type="email" class="passInput" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+                        <label>Email </label>
+                    </div>
+                    <button type="submit">Gửi</button>
+                </form>
+            </div>
         </div>
     )
 
