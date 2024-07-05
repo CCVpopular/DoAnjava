@@ -306,10 +306,10 @@ form button:hover {
 }
 
 /* hidden form sign up */
-.form-popup .signup,
-.form-popup.show-signup .login {
+/* .form-popup .signup,
+.form-popup.show-signup .login { */
     /* display: none; */
-}
+/* } */
 
 /* hidden form sign up */
 .form-popup.show-signup .signup {
@@ -329,6 +329,7 @@ form button:hover {
     margin-right: 7px;
 }
 
+/* edit footer */
 .footer {
     position: fixed;
     left: 0;
@@ -339,17 +340,20 @@ form button:hover {
     text-align: center;
 }
 
+/* edit button forgot password */
 .forgotPasswordBtn{
     border: none;
     background-color: white;
     font-size: 0.95rem;
 }
 
+/* edit div ForgotPassword */
 .divForgotPassword {
    text-align: center;
    padding: 10px;
 }
 
+/* edit size text signup */
 .signup{
     font-size: 0.90rem;
     height: 550px;
@@ -383,20 +387,57 @@ form button:hover {
     cursor: pointer;
 }
 
-.lock-icon {
-    font-size: 3rem;
+/* ========================================================== form profile user ========================================================== */
+.profile-page-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    max-width: 720px;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.75);
+    color: white;
+    border: 2px solid #fff;
+    border-radius: 10px;
+    transform: translate(-50%, -100%);
 }
 
-/* .passInput {
-    margin-top: 15px;
-    width: 80%;
-    background: transparent;
+.profile-page-container h2 {
+    text-align: center;
+    padding: 10px;
+}
+
+.profile-page-container .profileText {
+    font-size: 1rem;
+    padding-bottom: 10px;
+}
+
+/* edit update profile button in profile user */
+.profile-page-container .profileBtn {
     border: none;
-    border-bottom: 2px solid deepskyblue;
-    font-size: 15px;
-    color: white;
-    outline: none;
-} */
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    transition: 0.2s ease;
+}
+
+.profile-page-container .profileLinkUpdateUser {
+    text-decoration: none;
+    color: #000000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-page-container .profileBtn {
+    position:relative;
+    top:50%; 
+    left:0;
+    margin: 5px;
+}
 
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
