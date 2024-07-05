@@ -24,17 +24,19 @@ const ResetPassword = () => {
     };
 
     return (
-        <div>
-            <h2>Reset Password</h2>
+        <div class="card">
+            <h2>Đặt lại mật khẩu</h2>
             <form onSubmit={handleSubmit}>
-                <input
-                    type="password"
-                    value={newPassword}
-                    onChange={(e) => setNewPassword(e.target.value)}
-                    placeholder="Enter new password"
-                    required
-                />
-                <button type="submit">Reset Password</button>
+                <div className="input-field">
+                    <input
+                        type="password"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                        required
+                    />
+                    <label>Mật khẩu mới </label>
+                </div>
+                <button type="submit">Lưu</button>
             </form>
         </div>
     );
