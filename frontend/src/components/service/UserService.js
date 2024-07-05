@@ -6,6 +6,8 @@ class UserService{
     static async login(email, password){
         try{
             const response = await axios.post(`${UserService.BASE_URL}/auth/login`, {email, password})
+            localStorage.setItem('token', response.data.token);
+            localStorage.setItem('role', response.data.role);
             this.notifySubscribers();
             return response.data;
 

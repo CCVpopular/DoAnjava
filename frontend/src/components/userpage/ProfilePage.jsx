@@ -26,7 +26,6 @@ function ProfilePage() {
                 <h2>Thông tin tài khoản</h2>
                 <p className="profileText">Họ tên: {profileInfo.name}</p>
                 <p className="profileText">Email: {profileInfo.email}</p>
-                <p className="profileText">Thành phố: {profileInfo.city}</p>
             <div className='contenerBtnUpdate' >
                 {profileInfo.role === "ADMIN" && (
                     <button className="profileBtn"><Link className='profileLinkUpdateUser' to={`/update-user/${profileInfo.id}`}>Update This Profile</Link></button>
