@@ -10,7 +10,9 @@ import UpdateUser from './components/userpage/UpdateUser';
 import UserManagementPage from './components/userpage/UserManagementPage';
 import ProfilePage from './components/userpage/ProfilePage';
 import ChatRoom  from './components/chatroom/ChatRoom';
-
+import FriendRequestForm from './components/makefriend/FriendRequestForm';
+import AcceptFriendRequestForm from './components/makefriend/AcceptFriendRequestForm';
+import FriendList from './components/makefriend/FriendList';
 
 import ForgotPasswordPage from './components/auth/ForgotPasswordPage';
 import ResetPassword from './components/auth/ResetPassword';
@@ -37,6 +39,10 @@ function App() {
             )}
             {UserService.isAuthenticated() && (
               <>
+              
+                <Route path="/makefriend/request" element={<FriendRequestForm />} />
+                <Route path="/makefriend/accept" element={<AcceptFriendRequestForm />} />
+                <Route path="/makefriend/list" element={<FriendList />} />
                 <Route path="/forgotPassword" element={<Navigate to="/chatroom" />} />
                 <Route path="/resetPassword" element={<Navigate to="/chatroom" />} />
                 <Route exact path="/register" element={<Navigate to="/chatroom" />} />
@@ -45,6 +51,11 @@ function App() {
                 <Route path="/chatroom" element={<ChatRoom/>}/>
               </>
             )}
+
+
+
+
+
 
 
             {UserService.adminOnly() && (
