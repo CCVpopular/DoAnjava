@@ -10,7 +10,7 @@ import UpdateUser from './components/userpage/UpdateUser';
 import UserManagementPage from './components/userpage/UserManagementPage';
 import ProfilePage from './components/userpage/ProfilePage';
 import ChatRoom  from './components/chatroom/ChatRoom';
-
+import Friends from './components/friends/Friends';
 
 import ForgotPasswordPage from './components/auth/ForgotPasswordPage';
 import ResetPassword from './components/auth/ResetPassword';
@@ -43,6 +43,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/chatroom" />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/chatroom" element={<ChatRoom/>}/>
+                <Route path="/friends" element={<Friends/>}/>
               </>
             )}
 

@@ -41,6 +41,7 @@ function Navbar() {
                 {!isAuthenticated && <li><Link to="/">Home</Link></li>}
                 {isAuthenticated && <li><Link to="/profile">Profile</Link></li>}
                 {isAuthenticated && <li><Link to="/chatroom">Chat</Link></li>}
+                {isAuthenticated && <li><Link to="/friends">Friends</Link></li>}
                 {isAdmin && <li><Link to="/admin/user-management">User Management</Link></li>}
                 {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
             </ul>
