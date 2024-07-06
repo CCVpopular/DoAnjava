@@ -27,9 +27,12 @@ header {
     display: flex;
     padding: 22px 0;
     align-items: center;
-    max-width: 1200px;
+    max-width: auto;
     margin: 0 auto;
     justify-content: space-between;
+    background-color: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    box-shadow: 1px 1px 10px;
 }
 
 /* edit icon menu reposive*/
@@ -47,6 +50,7 @@ header {
     text-decoration: none;
     align-items: center;
     border-radius: 50%;
+    margin-left: 50px;
 }
 /* edit h2 in navbar */
 .navbar .logo h2 {
@@ -102,6 +106,7 @@ header {
     color: #fff;
     background-color: black;
     transition: 0.2s ease;
+    margin-right: 50px;
 }
 
 /* edit color login button when I'm hover */
@@ -438,6 +443,8 @@ form button:hover {
     left:0;
     margin: 5px;
 }
+
+
 
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {

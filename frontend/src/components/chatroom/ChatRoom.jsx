@@ -3,6 +3,9 @@ import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
 import UserService from '../service/UserService';
 
+import { MdOutlineGroups } from "react-icons/md";
+import { TbSend2 } from "react-icons/tb";
+
 var stompClient = null;
 const ChatRoom = () => {
     const [privateChats, setPrivateChats] = useState(new Map());
@@ -139,7 +142,7 @@ const ChatRoom = () => {
                 <div className="chat-box">
                     <div className="member-list">
                         <ul>
-                            <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}>Phòng chat tổng</li>
+                            <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             {[...privateChats.keys()]
                                 .filter(name => name !== userData.username) 
                                 .map((name, index) => (
@@ -160,7 +163,7 @@ const ChatRoom = () => {
 
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
-                            <button type="button" className="send-button" onClick={sendValue}>Gửi</button>
+                            <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
                     {tab !== "CHATROOM" && <div className="chat-content">
@@ -176,7 +179,7 @@ const ChatRoom = () => {
 
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
-                            <button type="button" className="send-button" onClick={sendPrivateValue}>Gửi</button>
+                            <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
                 </div>
