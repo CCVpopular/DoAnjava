@@ -101,17 +101,19 @@ const ChatRoom = () => {
     }
 
     const sendValue = () => {
-        if (stompClient && userData.message.trim() !== "") {
-            var chatMessage = {
-                senderName: userData.username,
-                message: userData.message,
-                status: "MESSAGE"
-            };
-            console.log(chatMessage);
-            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-            setUserData({ ...userData, "message": "" });
+        if (stompClient) {
+            if (userData.message.trim() !== "") {
+                var chatMessage = {
+                    senderName: userData.username,
+                    message: userData.message,
+                    status: "MESSAGE",
+                };
+                console.log(chatMessage);
+                stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+                setUserData({ ...userData, message: "" });
+            }
         }
-    }
+    };
 
     const sendPrivateValue = () => {
         if (stompClient && userData.message.trim() !== "") {
