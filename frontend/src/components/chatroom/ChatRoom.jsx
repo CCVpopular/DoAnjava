@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { over } from 'stompjs';
 import SockJS from 'sockjs-client';
+import Stomp from 'stompjs';
 import UserService from '../service/UserService';
+import MessageService from '../service/MessageService';
 
 var stompClient = null;
+
 const ChatRoom = () => {
     const [privateChats, setPrivateChats] = useState(new Map());
     const [publicChats, setPublicChats] = useState([]);
@@ -17,6 +19,7 @@ const ChatRoom = () => {
 
     useEffect(() => {
         fetchUserData();
+        fetchMessages(); // Load tin nhắn khi component được mount
     }, []);
 
     useEffect(() => {
@@ -27,11 +30,32 @@ const ChatRoom = () => {
 
     const fetchUserData = async () => {
         try {
-            const token = localStorage.getItem('token'); // Retrieve the token from localStorage
+            const token = localStorage.getItem('token');
             const response = await UserService.getYourProfile(token);
             setUserData({ ...userData, username: response.user.name });
         } catch (error) {
             console.error('Error fetching user data:', error);
+        }
+    };
+
+    const fetchMessages = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const publicResponse = await MessageService.getPublicMessages(token);
+            setPublicChats(publicResponse.data);
+
+            // Fetch private messages for each sender
+            const privateResponse = await Promise.all(
+                [...privateChats.keys()].map(sender =>
+                    MessageService.getPrivateMessages(sender, userData.username, token)
+                )
+            );
+
+            // Process private messages
+            const privateMessagesMap = new Map(privateResponse.map((response, index) => [response.data.senderName, response.data.messages]));
+            setPrivateChats(privateMessagesMap);
+        } catch (error) {
+            console.error('Error fetching messages:', error);
         }
     };
 
@@ -41,7 +65,7 @@ const ChatRoom = () => {
 
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
-        stompClient = over(Sock);
+        stompClient = Stomp.over(Sock);
         stompClient.connect({}, onConnected, onError);
     }
 
@@ -62,7 +86,6 @@ const ChatRoom = () => {
 
     const onMessageReceived = (payload) => {
         var payloadData = JSON.parse(payload.body);
-        // eslint-disable-next-line default-case
         switch (payloadData.status) {
             case "JOIN":
                 if (!privateChats.get(payloadData.senderName)) {
@@ -77,29 +100,13 @@ const ChatRoom = () => {
         }
     }
 
-    // const onMessageReceived = (payload) => {
-    //     var payloadData = JSON.parse(payload.body);
-    //     switch (payloadData.status) {
-    //         case "JOIN":
-    //             if (!privateChats.get(payloadData.senderName)) {
-    //                 privateChats.set(payloadData.senderName, []);
-    //                 setPrivateChats(new Map(privateChats));
-    //             }
-    //             break;
-    //         case "MESSAGE":
-    //             publicChats.push(payloadData);
-    //             setPublicChats([...publicChats]);
-    //             break;
-    //     }
-    // }
-
     const onPrivateMessage = (payload) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
         if (privateChats.get(payloadData.senderName)) {
             privateChats.get(payloadData.senderName).push(payloadData);
             setPrivateChats(new Map(privateChats));
-        } else {
+        } else { 
             let list = [];
             list.push(payloadData);
             privateChats.set(payloadData.senderName, list);
@@ -116,7 +123,7 @@ const ChatRoom = () => {
         setUserData({ ...userData, "message": value });
     }
 
-    const sendValue = () => {
+    const sendValue = async () => {
         if (stompClient) {
             var chatMessage = {
                 senderName: userData.username,
@@ -125,11 +132,16 @@ const ChatRoom = () => {
             };
             console.log(chatMessage);
             stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+            
+            // Save message to the database
+            const token = localStorage.getItem('token');
+            await MessageService.savePublicMessage(chatMessage, token);
+
             setUserData({ ...userData, "message": "" });
         }
     }
 
-    const sendPrivateValue = () => {
+    const sendPrivateValue = async () => {
         if (stompClient) {
             var chatMessage = {
                 senderName: userData.username,
@@ -143,6 +155,11 @@ const ChatRoom = () => {
                 setPrivateChats(new Map(privateChats));
             }
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+
+            // Save message to the database
+            const token = localStorage.getItem('token');
+            await MessageService.savePrivateMessage(chatMessage, token);
+
             setUserData({ ...userData, "message": "" });
         }
     }
