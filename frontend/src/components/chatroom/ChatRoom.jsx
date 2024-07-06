@@ -77,22 +77,6 @@ const ChatRoom = () => {
         }
     }
 
-    // const onMessageReceived = (payload) => {
-    //     var payloadData = JSON.parse(payload.body);
-    //     switch (payloadData.status) {
-    //         case "JOIN":
-    //             if (!privateChats.get(payloadData.senderName)) {
-    //                 privateChats.set(payloadData.senderName, []);
-    //                 setPrivateChats(new Map(privateChats));
-    //             }
-    //             break;
-    //         case "MESSAGE":
-    //             publicChats.push(payloadData);
-    //             setPublicChats([...publicChats]);
-    //             break;
-    //     }
-    // }
-
     const onPrivateMessage = (payload) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
@@ -118,19 +102,21 @@ const ChatRoom = () => {
 
     const sendValue = () => {
         if (stompClient) {
-            var chatMessage = {
-                senderName: userData.username,
-                message: userData.message,
-                status: "MESSAGE"
-            };
-            console.log(chatMessage);
-            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-            setUserData({ ...userData, "message": "" });
+            if (userData.message.trim() !== "") {
+                var chatMessage = {
+                    senderName: userData.username,
+                    message: userData.message,
+                    status: "MESSAGE",
+                };
+                console.log(chatMessage);
+                stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+                setUserData({ ...userData, message: "" });
+            }
         }
-    }
+    };
 
     const sendPrivateValue = () => {
-        if (stompClient) {
+        if (stompClient && userData.message.trim() !== "") {
             var chatMessage = {
                 senderName: userData.username,
                 receiverName: tab,
@@ -154,9 +140,11 @@ const ChatRoom = () => {
                     <div className="member-list">
                         <ul>
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}>Phòng chat tổng</li>
-                            {[...privateChats.keys()].map((name, index) => (
-                                <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))}
+                            {[...privateChats.keys()]
+                                .filter(name => name !== userData.username) 
+                                .map((name, index) => (
+                                    <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                                ))}
                         </ul>
                     </div>
                     {tab === "CHATROOM" && <div className="chat-content">
