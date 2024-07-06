@@ -1,6 +1,7 @@
 package com.hutech.backend.controller;
 
 import com.hutech.backend.dto.ReqRes;
+import com.hutech.backend.dto.resetP;
 import com.hutech.backend.entity.User;
 import com.hutech.backend.service.UsersManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,13 +16,23 @@ public class UserController {
     private UsersManagementService usersManagementService;
 
     @PostMapping("/auth/register")
-    public ResponseEntity<ReqRes> regeister(@RequestBody ReqRes reg){
+    public ResponseEntity<ReqRes> register(@RequestBody ReqRes reg){
         return ResponseEntity.ok(usersManagementService.register(reg));
     }
 
     @PostMapping("/auth/login")
     public ResponseEntity<ReqRes> login(@RequestBody ReqRes req){
         return ResponseEntity.ok(usersManagementService.login(req));
+    }
+
+    @PostMapping("/auth/forgotPassword")
+    public ResponseEntity<ReqRes> forgotPassword(@RequestBody ReqRes req){
+        return ResponseEntity.ok(usersManagementService.forgotPassword(req));
+    }
+
+    @PostMapping("/auth/resetPassword")
+    public ResponseEntity<resetP> resetPassword(@RequestBody resetP resetp){
+        return ResponseEntity.ok(usersManagementService.resetPassword(resetp));
     }
 
     @PostMapping("/auth/refresh")
