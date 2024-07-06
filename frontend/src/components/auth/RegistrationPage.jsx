@@ -9,9 +9,7 @@ function RegistrationPage() {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        password: '',
-        role: '',
-        city: ''
+        password: ''
     });
 
     const handleInputChange = (e) => {
@@ -30,9 +28,7 @@ function RegistrationPage() {
             setFormData({
                 name: '',
                 email: '',
-                password: '',
-                role: '',
-                city: ''
+                password: ''
             });
             alert('User registered successfully');
             navigate('/login');
@@ -69,16 +65,6 @@ function RegistrationPage() {
                             <div className="input-field">
                                 <input type="password" name="password" value={formData.password} onChange={handleInputChange} required />
                                 <label>Mật khẩu</label>
-                            </div>
-                            <div className="input-field">
-                                <input type="text" name="role" value={formData.role} onChange={handleInputChange} required />
-                                <label>Quyền</label>
-                                {/* placeholder="Enter your role" */}
-                            </div>
-                            <div className="input-field">
-                                <input type="text" name="city" value={formData.city} onChange={handleInputChange} required />
-                                <label>Thành phố</label>
-                                {/* placeholder="Enter your city" */}
                             </div>
                             <button type="submit">Đăng ký</button>
                         </form>

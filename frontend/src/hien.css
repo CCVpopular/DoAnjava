@@ -1,3 +1,12 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+/* add all font for web */
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+} 
+
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +14,9 @@ body {
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    width: 100%;
+    height: 100vh;
+    background-attachment: fixed;
   }
   
   code {
@@ -13,20 +25,41 @@ body {
   }
   
   input {
+    width: 100%;
+    height: 100%;
+    outline: none;
     padding: 10px;
     font-size: 1.2em;
+    border-radius: 10px;
+    border: 1px solid #717171;
   }
+
+  input:focus{
+    border-color: rgb(1, 106, 102);
+    border: 2px solid rgb(1, 106, 102);
+    box-shadow: 1px 1px 5px 1px rgb(1, 106, 102);
+  }
+
   button{
     border: none;
-    padding: 10px;
-    background: green;
-    color:#fff;
-    font-size: 1.2em;
-    font-weight: bold;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 10px 18px;
+    border-radius: 5px;
+    border: white;
+    cursor: pointer;
+    color: #fff;
+    background-color: rgba(0, 129, 125, 0.5);
+    transition: 0.2s ease;
   }
   
+  .send-button:hover {
+    background-color: rgb(0, 116, 134);
+    box-shadow: 1px 1px 5px 1px rgb(0, 0, 0) ;
+  }
   
   .container{
+    display: flex;
     position: relative;
   }
   
@@ -41,15 +74,19 @@ body {
   }
   .chat-box{
     box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
-    margin:40px 50px;
-    height: 600px;
+    margin:10px 10px;
+    height: 550px;
+    width: 100%;
     padding: 10px;
     display: flex;
     flex-direction: row;
+    background: rgba(255, 255, 255, 0.2)
   }
   
   .member-list{
     width: 20%;
+    overflow: auto;
+    text-align: center;
   }
   
   .chat-content{
@@ -60,19 +97,53 @@ body {
   .chat-messages{
     height: 80%;
     border: 1px solid #000;
-    overflow: auto;
+    overflow-y: auto; 
+    overflow-x: hidden;
   }
   
   .send-message{
     width: 100%;
     display: flex;
-    flex-direction: row;
+    flex-direction: row; 
+    height: 50px;
+    width: 100%;
+    margin-top: 15px;
+    position: relative;
   }
-  
-  .input-message{
-    width:90%;
-    border-radius: 50px;
-  }
+
+  form .input-message input {
+    width: 100%;
+    height: 100%;
+    outline: none;
+    padding: 0 15px;
+    font-size: 0.95rem;
+    border-radius: 10px;
+    border: 1px solid #717171;
+}
+
+/* edit animation padding text input when it focus */
+.input-message input:is(:focus, :valid){
+  padding: 16px 15px 0;
+}
+
+/* edit .input-field label */
+form .input-message label {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  color: #717171;
+  pointer-events: none;
+  transform: translateY(-50%);
+  transition: 0.2s ease;
+}
+
+/* edit animation text when it focus */
+.input-message input:is(:focus, :valid) ~ label{
+  color:  rgb(1, 106, 102);
+  font-size: 0.75rem;
+  transform: translateY(-120%);
+}
+
   
   ul {
     padding: 0;
@@ -80,9 +151,9 @@ body {
   }
   .send-button{
     width:10%;
-    border-radius: 50px;
     margin-left: 5px;
     cursor: pointer;
+    border-radius: 10px;
   }
   .member{
     padding: 10px;
@@ -90,14 +161,15 @@ body {
     border:#000;
     cursor: pointer;
     margin: 5px 2px;
-    box-shadow: 0 8px 8px -4px lightblue;
+    box-shadow: 0 8px 8px -4px rgb(36, 36, 36);
+    border-radius: 10px;
   }
   .member.active{
-    background: blueviolet;
+    background: rgb(1, 106, 102);
     color:#fff;
   }
   .member:hover{
-    background: grey;
+    background: rgb(0, 159, 154);
     color:#fff;
   }
   
@@ -106,22 +178,84 @@ body {
     padding: 3px 5px;
     border-radius: 5px;
     color:#fff;
+    height: 35px;
+    box-shadow: 0 8px 8px -4px rgb(36, 36, 36);
+    border: #000;
   }
   .avatar.self{
-    color:#000;
-    background-color: greenyellow;
+    color:#ffffff;
+    background-color: rgb(1, 106, 102);
+  }
+
+  .avatar.false{
+    color:#ffffff;
+    background-color: cornflowerblue;
   }
   .message{
     padding:5px;
     width: auto;
     display: flex;
     flex-direction: row;
-    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
     margin: 5px 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
   .message-data{
-    padding:5px;
+    word-break:break-all;
+    background-color: #efefef;
+    border-radius: 10px;
+    margin-right: 5px;
+    margin-left: 5px;
+    padding: 5px;
+    border: #000;
+    box-shadow: 0 8px 8px -4px rgb(36, 36, 36);
   }
   .message.self{
+    max-width: auto;
     justify-content: end;
+    padding: 10px;
+    background: none;
+    border:none;
+    border-radius: 10px;
   }
+
+  .message.false{
+    max-width: auto;
+    justify-content: start;
+    padding: 10px;
+    background: none;
+    border:none;
+    border-radius: 10px;
+  }
+
+  .iconSendMess{
+    font-size: 30px;
+}
+
+.iconChatAll{
+    font-size: 30px;
+    border-radius: 25px;
+    background-color: rgb(42, 63, 63);
+}
+
+
+  @media (max-width: 980px) {
+    .chat-messages{
+        flex-direction: column;
+    }
+    .send-button{
+      width: 100px;
+    }
+    .textChatAll{
+      display: none;
+    }
+
+    .iconChatAll{
+      font-size: 30px;
+    }
+  }
+
+  @media (max-width: 980px) {
+    
+  }
+  

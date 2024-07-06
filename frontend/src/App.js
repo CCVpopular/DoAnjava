@@ -27,29 +27,44 @@ function App() {
         <Navbar />
         <div className="content">
           <Routes>
-            <Route exact path="/" element={<LoginPage />} />
-            <Route exact path="/login" element={<LoginPage />} />
-            <Route path="/profile" element={<ProfilePage />} />
+            {!UserService.isAuthenticated() && (
+              <>
+              <Route exact path="/" element={<LoginPage />} />
+              <Route exact path="/login" element={<LoginPage />} />
+              <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
+              <Route path="/resetPassword" element={<ResetPassword />} />
+              <Route exact path="/register" element={<RegistrationPage />} />
+              <Route path="*" element={<Navigate to="/login" />} />
+              </>
+            )}
+            {UserService.isAuthenticated() && (
+              <>
+              
+                <Route path="/makefriend/request" element={<FriendRequestForm />} />
+                <Route path="/makefriend/accept" element={<AcceptFriendRequestForm />} />
+                <Route path="/makefriend/list" element={<FriendList />} />
+                <Route path="/forgotPassword" element={<Navigate to="/chatroom" />} />
+                <Route path="/resetPassword" element={<Navigate to="/chatroom" />} />
+                <Route exact path="/register" element={<Navigate to="/chatroom" />} />
+                <Route path="*" element={<Navigate to="/chatroom" />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/chatroom" element={<ChatRoom/>}/>
+              </>
+            )}
 
-            <Route path="/chatroom" element={<ChatRoom/>}/>
-            <Route path="/makefriend/request" element={<FriendRequestForm />} />
-            <Route path="/makefriend/accept" element={<AcceptFriendRequestForm />} />
-            <Route path="/makefriend/list" element={<FriendList />} />
-
-            <Route path="/forgotPassword" element={<ForgotPasswordPage />} />
-            <Route path="/resetPassword" element={<ResetPassword />} />
-            <Route exact path="/register" element={<RegistrationPage />} />
 
 
-            {/* Check if user is authenticated and admin before rendering admin-only routes */}
+
+
+
+
             {UserService.adminOnly() && (
               <>
-
                 <Route path="/admin/user-management" element={<UserManagementPage />} />
                 <Route path="/update-user/:userId" element={<UpdateUser />} />
               </>
             )}
-            <Route path="*" element={<Navigate to="/login" />} />‰
+            <Route path="*" element={<Navigate to="/login" />} />
           </Routes>
         </div>
         <FooterComponent />

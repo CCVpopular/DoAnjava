@@ -32,7 +32,10 @@ public class ChatController {
     @MessageMapping("/private-message")
     public void handlePrivateMessage(@Payload Message message) {
         // Lưu tin nhắn vào cơ sở dữ liệu trước khi gửi lại
-        Message savedMessage = messageService.savePrivateMessage(message);
+        Message savedMessage = null;
+        if (message.getMessage() != "" || message.getMessage() != null){
+            savedMessage = messageService.savePrivateMessage(message);
+        }
         simpMessagingTemplate.convertAndSendToUser(message.getReceiverName(), "/private", savedMessage);
     }
 

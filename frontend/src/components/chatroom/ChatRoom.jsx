@@ -4,6 +4,9 @@ import Stomp from 'stompjs';
 import UserService from '../service/UserService';
 import MessageService from '../service/MessageService';
 
+import { MdOutlineGroups } from "react-icons/md";
+import { TbSend2 } from "react-icons/tb";
+
 var stompClient = null;
 
 const ChatRoom = () => {
@@ -125,24 +128,24 @@ const ChatRoom = () => {
 
     const sendValue = async () => {
         if (stompClient) {
-            var chatMessage = {
-                senderName: userData.username,
-                message: userData.message,
-                status: "MESSAGE"
-            };
-            console.log(chatMessage);
-            stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-            
-            // Save message to the database
-            const token = localStorage.getItem('token');
-            await MessageService.savePublicMessage(chatMessage, token);
-
-            setUserData({ ...userData, "message": "" });
+            if (userData.message.trim() !== "") {
+                var chatMessage = {
+                    senderName: userData.username,
+                    message: userData.message,
+                    status: "MESSAGE",
+                };
+                console.log(chatMessage);
+                stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+                const token = localStorage.getItem('token');
+                await MessageService.savePublicMessage(chatMessage, token);
+                setUserData({ ...userData, message: "" });
+            }
         }
-    }
+    };
 
     const sendPrivateValue = async () => {
-        if (stompClient) {
+        if (stompClient && userData.message.trim() !== "") {
+
             var chatMessage = {
                 senderName: userData.username,
                 receiverName: tab,
@@ -170,10 +173,12 @@ const ChatRoom = () => {
                 <div className="chat-box">
                     <div className="member-list">
                         <ul>
-                            <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}>Chatroom</li>
-                            {[...privateChats.keys()].map((name, index) => (
-                                <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
-                            ))}
+                            <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
+                            {[...privateChats.keys()]
+                                .filter(name => name !== userData.username) 
+                                .map((name, index) => (
+                                    <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                                ))}
                         </ul>
                     </div>
                     {tab === "CHATROOM" && <div className="chat-content">
@@ -188,8 +193,8 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
-                            <button type="button" className="send-button" onClick={sendValue}>send</button>
+                            <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
                     {tab !== "CHATROOM" && <div className="chat-content">
@@ -204,8 +209,8 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="enter the message" value={userData.message} onChange={handleMessage} />
-                            <button type="button" className="send-button" onClick={sendPrivateValue}>send</button>
+                            <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
                 </div>

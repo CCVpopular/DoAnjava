@@ -23,6 +23,7 @@ function Navbar() {
         const confirmDelete = window.confirm('Are you sure you want to logout this user?');
         if (confirmDelete) {
             UserService.logout();
+            window.location.reload();
         }
     };
 
@@ -39,18 +40,13 @@ function Navbar() {
                 <span class="close-btn material-symbols-outlined">close</span>
                 {!isAuthenticated && <li><Link to="/">Home</Link></li>}
                 {isAuthenticated && <li><Link to="/profile">Profile</Link></li>}
+                {isAuthenticated && <li><Link to="/chatroom">Chat</Link></li>}
                 {isAdmin && <li><Link to="/admin/user-management">User Management</Link></li>}
                 {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
             </ul>
             <button class="login-btn">
                 HelloWord
             </button>
-            {/* <ul>
-                {!isAuthenticated && <li><Link to="/">Home</Link></li>}
-                {isAuthenticated && <li><Link to="/profile">Profile</Link></li>}
-                {isAdmin && <li><Link to="/admin/user-management">User Management</Link></li>}
-                {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
-            </ul> */}
         </nav>
     );
 }

@@ -17,9 +17,10 @@ const handleSubmit = async (e) => {
         const userData = await UserService.login(email, password)
         console.log(userData)
         if (userData.token) {
-            localStorage.setItem('token', userData.token)
-            localStorage.setItem('role', userData.role)
+            localStorage.setItem('token', userData.token);
+            localStorage.setItem('role', userData.role);
             navigate('/chatroom')
+            window.location.reload();
         }else{
             setError(userData.message)
         }
@@ -47,7 +48,7 @@ const handleSubmit = async (e) => {
                         <p>Để bắt đầu "CHAT CHIT" vui lòng đăng nhập tài khoản.</p>
                     </div>
                     <div class="form-content">
-                        <h2>Đăng ký</h2>
+                        <h2>Đăng Nhập</h2>
                         {error && <p className="error-message">{error}</p>}
                         <form onSubmit={handleSubmit}>
                             <div className="input-field">
