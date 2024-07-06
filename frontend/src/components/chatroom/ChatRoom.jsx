@@ -7,6 +7,7 @@ import MessageService from '../service/MessageService';
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
+import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
 
@@ -201,6 +202,7 @@ const ChatRoom = () => {
 
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button>
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
@@ -217,6 +219,7 @@ const ChatRoom = () => {
 
                         <div className="send-message">
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button>
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
