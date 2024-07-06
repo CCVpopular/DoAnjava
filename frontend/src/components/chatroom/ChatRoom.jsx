@@ -6,6 +6,7 @@ import MessageService from '../service/MessageService';
 
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
+import { FaSearch } from "react-icons/fa";
 
 var stompClient = null;
 
@@ -172,6 +173,12 @@ const ChatRoom = () => {
             {userData.connected ?
                 <div className="chat-box">
                     <div className="member-list">
+                        <div className="search-box">
+                            <div className="search-message">
+                                <input type="text" className="input-message" placeholder="Tìm kiếm tin nhắn" />
+                                <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
+                            </div>
+                        </div>
                         <ul>
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             {[...privateChats.keys()]
