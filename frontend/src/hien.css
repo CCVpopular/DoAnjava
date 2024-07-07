@@ -315,9 +315,14 @@ form .input-message label {
       margin-left: 10px;
     }
 
+    .chat-box{
+      margin:10px 10px;
+      height: 500px;
+    }
+
+    .member-list{
+      width: 30%;
+    }
   }
 
-  @media (max-width: 980px) {
-    
-  }
   
