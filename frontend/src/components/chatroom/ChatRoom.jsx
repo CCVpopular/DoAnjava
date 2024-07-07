@@ -221,7 +221,10 @@ const ChatRoom = () => {
                     </div>}
                 </div>
                 :
-                <div>Loading...</div>
+                <div>
+                    {/* Loading... */}
+                    <div className='loader'></div>
+                </div>
             }
         </div>
     )
