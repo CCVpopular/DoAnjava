@@ -3,6 +3,7 @@ package com.hutech.backend.controller;
 import com.hutech.backend.dto.AddFriendDto;
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.AddFriend;
+import com.hutech.backend.entity.User;
 import com.hutech.backend.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -30,4 +31,13 @@ public class FriendController {
         return ResponseEntity.ok(friendService.getaddFriendList(userId));
     }
 
+    @PutMapping("/adminuser/acceptFriend/{Id}")
+    public ResponseEntity<AddFriendDto> AcceptFriend(@PathVariable int Id){
+        return ResponseEntity.ok(friendService.AcceptFriend(Id));
+    }
+
+    @PutMapping("/adminuser/denyFriend/{Id}")
+    public ResponseEntity<AddFriendDto> DenyFriend(@PathVariable int Id){
+        return ResponseEntity.ok(friendService.DenyFriend(Id));
+    }
 }

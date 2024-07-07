@@ -17,6 +17,8 @@ public class AddFriendDto {
 
         private int friend;
 
+        private int id;
+
         private String status;
 
         private boolean hasRead;
@@ -26,4 +28,8 @@ public class AddFriendDto {
         List<AddFriend> friends;
 
         private String token;
+
+        private String message;
+
+        private int statusCode;
 }

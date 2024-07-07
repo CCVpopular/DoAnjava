@@ -3,7 +3,9 @@ package com.hutech.backend.service;
 import com.hutech.backend.dto.AddFriendDto;
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.AddFriend;
+import com.hutech.backend.entity.FriendList;
 import com.hutech.backend.entity.User;
+import com.hutech.backend.repository.FriendListRepository;
 import com.hutech.backend.repository.FriendRepository;
 import com.hutech.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,9 @@ import java.util.List;
 public class FriendService {
     @Autowired
     private FriendRepository friendRepository;
+
+    @Autowired
+    private FriendListRepository friendlistRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -38,6 +43,34 @@ public class FriendService {
         AddFriendDto addFriendDto = new AddFriendDto();
         List<AddFriend> addFriendList = friendRepository.findAddUsersByFriendIdAndStatus(userId, "PENDING");
         addFriendDto.setFriends(addFriendList);
+        return addFriendDto;
+    }
+
+    public AddFriendDto AcceptFriend (int Id) {
+        AddFriendDto addFriendDto = new AddFriendDto();
+        AddFriend acceptFriend = friendRepository.findById(Id).orElseThrow(() -> new RuntimeException("FriendList Not found"));
+        acceptFriend.setStatus("ACCEPT");
+        friendRepository.save(acceptFriend);
+        addFriendDto.setStatusCode(200);
+        addFriendDto.setMessage("Friend Accepted");
+        FriendList myself = new FriendList();
+        myself.setUser(acceptFriend.getUser());
+        myself.setFriend(acceptFriend.getFriend());
+        friendlistRepository.save(myself);
+        FriendList friend = new FriendList();
+        friend.setUser(acceptFriend.getFriend());
+        friend.setFriend(acceptFriend.getUser());
+        friendlistRepository.save(friend);
+        return addFriendDto;
+    }
+
+    public AddFriendDto DenyFriend (int Id) {
+        AddFriendDto addFriendDto = new AddFriendDto();
+        AddFriend acceptFriend = friendRepository.findById(Id).orElseThrow(() -> new RuntimeException("FriendList Not found"));
+        acceptFriend.setStatus("DENY");
+        friendRepository.save(acceptFriend);
+        addFriendDto.setStatusCode(200);
+        addFriendDto.setMessage("Friend Deny");
         return addFriendDto;
     }
 }
