@@ -1,15 +1,16 @@
 package com.hutech.backend.controller;
 
+import com.hutech.backend.entity.MarkMessagesReadRequest;
 import com.hutech.backend.entity.Message;
 import com.hutech.backend.service.ChatService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +48,25 @@ public class ChatController {
     @GetMapping("/api/messages/private")
     public List<Message> getPrivateMessages(@RequestParam String sender, @RequestParam String receiver) {
         return messageService.getPrivateMessages(sender, receiver);
+    }
+
+    @PostMapping("/api/messages/{id}/mark-as-read")
+    public void markMessageAsRead(@PathVariable Integer id) {
+        messageService.markMessageAsRead(id);
+    }
+
+    @PutMapping("/api/messages/mark-read")
+    public ResponseEntity<String> markAllMessagesAsRead(@RequestBody MarkMessagesReadRequest request) {
+        try {
+            messageService.markAllMessagesAsRead(request.getSenderName(), request.getReceiverName());
+            return ResponseEntity.ok().body("Marked all messages as read successfully.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to mark messages as read.");
+        }
+    }
+
+    @GetMapping("/api/messages/{id}/is-read")
+    public boolean isMessageRead(@PathVariable Integer id) {
+        return messageService.isMessageRead(id);
     }
 }

@@ -9,4 +9,6 @@ import java.util.List;
 public interface MessageRepository extends JpaRepository<Message, Integer> {
     List<Message> findByStatus(Status status);
     List<Message> findBySenderNameAndReceiverNameOrReceiverNameAndSenderName(String sender, String receiver, String receiver2, String sender2);
+
+    List<Message> findBySenderNameAndReceiverNameAndReadMessageFalse(String sender, String receiver);
 }
