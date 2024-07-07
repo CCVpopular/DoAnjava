@@ -23,6 +23,19 @@ header {
     top: 0;
     padding: 0 10px;
 }
+footer{
+    position:fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: auto;
+    margin: auto;
+    background-color: rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(50px);
+    box-shadow: black 1px 1px 10px;
+}
 /* edit navbar */
 .navbar {
     display: flex;
@@ -107,7 +120,7 @@ header {
     color: #fff;
     background-color: black;
     transition: 0.2s ease;
-    margin-right: 50px;
+    margin-right: 20px;
 }
 
 /* edit color login button when I'm hover */
@@ -337,7 +350,6 @@ form button:hover {
 
 /* edit footer */
 .footer {
-    position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
@@ -487,6 +499,7 @@ form button:hover {
         font-size: 0.9rem;
         padding: 7px 10px;
     }
+
 }
 
 /* edit background will be hidden when max-width: 760px */
