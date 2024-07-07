@@ -77,7 +77,6 @@ const Friends = () => {
             console.error('Error connecting to WebSocket:', error);
         });
     };
-
     
     const addFriendReceived = (payload) => {
         var payloadData = JSON.parse(payload.body);
@@ -101,6 +100,30 @@ const Friends = () => {
             }        
     }
 
+    const AcceptFriend = async (id) => {
+        try {
+            await UserService.acceptFriend(id, token);
+            setNotifications((prevNotifications) =>
+                prevNotifications.filter((notification) => notification.id !== id)
+            );
+        } 
+        catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    };
+
+
+    const DenyFriend = async (id) => {
+        try {
+            await UserService.denyFriend(id, token);
+            setNotifications((prevNotifications) =>
+                prevNotifications.filter((notification) => notification.id !== id)
+            );
+        } 
+        catch (error) {
+            console.error("Error deleting user:", error);
+        }
+    };
     return (
         <div className="user-management-container">
             <div>
@@ -127,8 +150,8 @@ const Friends = () => {
                 <ul>
                     {notifications.map((notification, index) => (
                         <li key={index}>{notification.user.name}
-                            <button onClick={() => AddFriend(usersSearch)} >Chấp Nhận</button>
-                            <button onClick={() => AddFriend(usersSearch)} >Từ Chối</button>
+                            <button onClick={() => AcceptFriend(notification.id)} >Chấp Nhận</button>
+                            <button onClick={() => DenyFriend(notification.id)} >Từ Chối</button>
                         </li>
                     ))}
                 </ul>

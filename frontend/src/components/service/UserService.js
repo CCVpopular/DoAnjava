@@ -129,6 +129,30 @@ class UserService{
         }
     }
 
+    static async acceptFriend(Id , token){
+        try{
+            const response = await axios.put(`${UserService.BASE_URL}/adminuser/acceptFriend/${Id}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    static async denyFriend(Id , token){
+        try{
+            const response = await axios.put(`${UserService.BASE_URL}/adminuser/denyFriend/${Id}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
     /**AUTHENTICATION CHECKER */
     static subscribers = [];
 
