@@ -28,23 +28,24 @@ function Navbar() {
     };
 
     return (
-        <nav class="navbar">
-            <span class="menu-btn material-symbols-outlined">
+        <nav className="navbar">
+            <span className="menu-btn material-symbols-outlined">
                 Menu
             </span>
-            <a href="#" class="logo">
+            <a href="#" className="logo">
                 <img src="logo.png" alt="logo"/>
                 <h2>CHAT CHIT</h2>
             </a>
-            <ul class="links">
-                <span class="close-btn material-symbols-outlined">close</span>
+            <ul className="links">
+                <span className="close-btn material-symbols-outlined">close</span>
                 {!isAuthenticated && <li><Link to="/">Home</Link></li>}
                 {isAuthenticated && <li><Link to="/profile">Profile</Link></li>}
                 {isAuthenticated && <li><Link to="/chatroom">Chat</Link></li>}
+                {isAuthenticated && <li><Link to="/friends">Friends</Link></li>}
                 {isAdmin && <li><Link to="/admin/user-management">User Management</Link></li>}
                 {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
             </ul>
-            <button class="login-btn">
+            <button className="login-btn">
                 HelloWord
             </button>
         </nav>
