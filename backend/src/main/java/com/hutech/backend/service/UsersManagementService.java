@@ -2,8 +2,10 @@ package com.hutech.backend.service;
 
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.dto.resetP;
+import com.hutech.backend.entity.FriendList;
 import com.hutech.backend.entity.PasswordResetToken;
 import com.hutech.backend.entity.User;
+import com.hutech.backend.repository.FriendListRepository;
 import com.hutech.backend.repository.PasswordResetTokenRepository;
 import com.hutech.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,16 +15,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UsersManagementService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private FriendListRepository friendListRepository;
+
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
     @Autowired
@@ -191,7 +194,12 @@ public class UsersManagementService {
     public ReqRes getUsersByName(String nameFind, String myName) {
         ReqRes response = new ReqRes();
         try {
-            List<User> usersByName = userRepository.findByNameContainingAndNameNot(nameFind, myName);
+            User mySelf = userRepository.findByName(myName).orElseThrow(() -> new RuntimeException("User Not found"));
+            List<Integer> myFriendList = friendListRepository.findFriendIdsByUser(mySelf.getId());
+            if (myFriendList.isEmpty()) {
+                myFriendList = List.of(-1,-2,-3,-4);
+            }
+            List<User> usersByName = userRepository.findByNameContainingAndNameNotAndIdNotIn(nameFind, myName, myFriendList);
             if (usersByName.isEmpty()) {
                 throw new RuntimeException("Users Not found");
             }

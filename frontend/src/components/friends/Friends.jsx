@@ -80,6 +80,7 @@ const Friends = () => {
     
     const addFriendReceived = (payload) => {
         var payloadData = JSON.parse(payload.body);
+        if(payloadData.status !== "dontSave"){
             const userId = localStorage.getItem("userId")
             const userIdString = String(userId).trim();
             const friendIdString = String(payloadData.friend.id).trim();
@@ -97,7 +98,8 @@ const Friends = () => {
                         return prevNotifications;
                     }
                 });
-            }        
+            }  
+        }
     }
 
     const AcceptFriend = async (id) => {
