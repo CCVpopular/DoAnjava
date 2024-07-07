@@ -29,13 +29,19 @@ public class FriendService {
     public AddFriend sendFriendRequest(AddFriendDto addFriendDto) {
         User user = userRepository.findById(addFriendDto.getUser()).orElseThrow(() -> new RuntimeException("User Not found"));
         User friend = userRepository.findById(addFriendDto.getFriend()).orElseThrow(() -> new RuntimeException("Friend Not found"));
+        AddFriend addFriend = friendRepository.findAllByUserAndFriendAndStatus(user, friend, "PENDING");
+        AddFriend addFriend1 = friendRepository.findAllByUserAndFriendAndStatus(user, friend, "ACCEPT");
         AddFriend addFriendRequest = new AddFriend();
-        addFriendRequest.setUser(user);
-        addFriendRequest.setFriend(friend);
-        addFriendRequest.setStatus(addFriendDto.getStatus());
-        addFriendRequest.setHasRead(addFriendDto.isHasRead());
-        addFriendRequest.setCreatedAt(LocalDateTime.now());
-        friendRepository.save(addFriendRequest);
+            addFriendRequest.setUser(user);
+            addFriendRequest.setFriend(friend);
+            addFriendRequest.setStatus("dontSave");
+
+            addFriendRequest.setHasRead(addFriendDto.isHasRead());
+            addFriendRequest.setCreatedAt(LocalDateTime.now());
+        if (addFriend == null && addFriend1 == null) {
+            addFriendRequest.setStatus(addFriendDto.getStatus());
+            friendRepository.save(addFriendRequest);
+        }
         return addFriendRequest;
     }
 
