@@ -6,13 +6,12 @@ import lombok.Data;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "friends")
+@Table(name = "friend")
 @Data
 public class Friend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -23,6 +22,8 @@ public class Friend {
     private User friend;
 
     private String status;
+
+    private boolean hasRead;
 
     @Column(name = "created_at")
     private Timestamp createdAt;
