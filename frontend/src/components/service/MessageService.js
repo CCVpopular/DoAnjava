@@ -10,17 +10,8 @@ const getPrivateMessages = (sender, receiver, token) => {
     return axios.get(`${API_URL}/private`, { params: { sender, receiver }, headers: { Authorization: `Bearer ${token}` } });
 };
 
-const savePublicMessage = (message, token) => {
-    return axios.post(`${API_URL}/public`, message, { headers: { Authorization: `Bearer ${token}` } });
-};
-
-const savePrivateMessage = (message, token) => {
-    return axios.post(`${API_URL}/private`, message, { headers: { Authorization: `Bearer ${token}` } });
-};
 
 export default {
     getPublicMessages,
-    getPrivateMessages,
-    savePublicMessage,
-    savePrivateMessage
+    getPrivateMessages
 };

@@ -188,6 +188,23 @@ public class UsersManagementService {
         return reqRes;
     }
 
+    public ReqRes getUsersByName(String nameFind, String myName) {
+        ReqRes response = new ReqRes();
+        try {
+            List<User> usersByName = userRepository.findByNameContainingAndNameNot(nameFind, myName);
+            if (usersByName.isEmpty()) {
+                throw new RuntimeException("Users Not found");
+            }
+            response.setUserList(usersByName);
+            response.setStatusCode(200);
+            response.setMessage("Users found successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred: " + e.getMessage());
+        }
+        return response;
+    }
+
 
     public ReqRes deleteUser(Integer userId) {
         ReqRes reqRes = new ReqRes();

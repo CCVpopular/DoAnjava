@@ -161,10 +161,6 @@ const ChatRoom = () => {
             }
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
 
-            // Save message to the database
-            const token = localStorage.getItem('token');
-            await MessageService.savePrivateMessage(chatMessage, token);
-
             setUserData({ ...userData, "message": "" });
         }
     }

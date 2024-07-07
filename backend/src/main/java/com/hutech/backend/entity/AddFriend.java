@@ -4,15 +4,16 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
-@Table(name = "friends")
+@Table(name = "addfriend")
 @Data
-public class Friend {
+public class AddFriend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -24,6 +25,8 @@ public class Friend {
 
     private String status;
 
+    private boolean hasRead;
+
     @Column(name = "created_at")
-    private Timestamp createdAt;
+    private LocalDateTime createdAt;
 }

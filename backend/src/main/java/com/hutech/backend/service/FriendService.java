@@ -1,12 +1,16 @@
 package com.hutech.backend.service;
 
-import com.hutech.backend.entity.Friend;
+import com.hutech.backend.dto.AddFriendDto;
+import com.hutech.backend.dto.ReqRes;
+import com.hutech.backend.entity.AddFriend;
 import com.hutech.backend.entity.User;
 import com.hutech.backend.repository.FriendRepository;
 import com.hutech.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
@@ -17,25 +21,23 @@ public class FriendService {
     @Autowired
     private UserRepository userRepository;
 
-    public void sendFriendRequest(Integer userId, Integer friendId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        User friend = userRepository.findById(friendId).orElseThrow();
-
-        Friend friendRequest = new Friend();
-        friendRequest.setUser(user);
-        friendRequest.setFriend(friend);
-        friendRequest.setStatus("PENDING");
-        friendRepository.save(friendRequest);
-
-    }
-    public void acceptFriendRequest(Integer requestId) {
-        Friend friendRequest = friendRepository.findById(requestId).orElseThrow();
-        friendRequest.setStatus("ACCEPTED");
-        friendRepository.save(friendRequest);
+    public AddFriend sendFriendRequest(AddFriendDto addFriendDto) {
+        User user = userRepository.findById(addFriendDto.getUser()).orElseThrow(() -> new RuntimeException("User Not found"));
+        User friend = userRepository.findById(addFriendDto.getFriend()).orElseThrow(() -> new RuntimeException("Friend Not found"));
+        AddFriend addFriendRequest = new AddFriend();
+        addFriendRequest.setUser(user);
+        addFriendRequest.setFriend(friend);
+        addFriendRequest.setStatus(addFriendDto.getStatus());
+        addFriendRequest.setHasRead(addFriendDto.isHasRead());
+        addFriendRequest.setCreatedAt(LocalDateTime.now());
+        friendRepository.save(addFriendRequest);
+        return addFriendRequest;
     }
 
-    public List<Friend> getFriends(Integer userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        return friendRepository.findByUserAndStatus(user, "ACCEPTED");
+    public AddFriendDto getaddFriendList (int userId) {
+        AddFriendDto addFriendDto = new AddFriendDto();
+        List<AddFriend> addFriendList = friendRepository.findAddUsersByFriendIdAndStatus(userId, "PENDING");
+        addFriendDto.setFriends(addFriendList);
+        return addFriendDto;
     }
 }
