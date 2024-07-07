@@ -110,6 +110,7 @@ footer{
 
 /* edit login button in navbar */
 .navbar .login-btn{
+    display: flex;
     border: none;
     outline: none;
     font-size: 1rem;
@@ -458,7 +459,35 @@ form button:hover {
     margin: 5px;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+background: rgb(0, 68, 65);
+}
 
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: rgb(1, 164, 159);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: rgb(0, 198, 191);
+}
+
+.bgBlue{
+    background-color: #3B55A0;
+    cursor: pointer;
+}
+
+.bgBlack{
+    background-color: #000000;
+    cursor: pointer;
+}
 
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {

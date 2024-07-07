@@ -176,7 +176,7 @@ const ChatRoom = () => {
                     <div className="member-list">
                         <div className="search-box">
                             <div className="search-message">
-                                <input type="text" className="input-message" placeholder="Tìm kiếm tin nhắn" />
+                                <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
                             </div>
                         </div>
@@ -201,7 +201,7 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button>
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
@@ -218,7 +218,7 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
-                            <input type="text" className="input-message" placeholder="Nhập tin nhắn" value={userData.message} onChange={handleMessage} />
+                            <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button>
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>

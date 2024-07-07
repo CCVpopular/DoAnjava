@@ -278,6 +278,20 @@ form .input-message label {
   flex-direction: row;
 }
 
+.input-messageAll {
+  width: 100%;
+  height: 50px;
+  padding: 12px;
+  display: flex;
+  border-radius: 15px;
+  resize: none;
+  font-size: 1.2rem;
+}
+
+.input-messageAll::-webkit-scrollbar{
+  width: 0px;
+}
+
   @media (max-width: 980px) {
     .chat-messages{
         flex-direction: column;
