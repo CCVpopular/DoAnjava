@@ -19,6 +19,10 @@ const handleSubmit = async (e) => {
         if (userData.token) {
             localStorage.setItem('token', userData.token);
             localStorage.setItem('role', userData.role);
+            const response = await UserService.getYourProfile(userData.token);
+            localStorage.setItem('userId', response.user.id);
+            localStorage.setItem('userName', response.user.name);
+            localStorage.setItem('userEmail', response.user.email);
             navigate('/chatroom')
             window.location.reload();
         }else{
