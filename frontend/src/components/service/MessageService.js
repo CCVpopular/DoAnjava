@@ -9,13 +9,14 @@ const getPublicMessages = (token) => {
 const getPrivateMessages = (sender, receiver, token) => {
     return axios.get(`${API_URL}/private`, { params: { sender, receiver }, headers: { Authorization: `Bearer ${token}` } });
 };
-
-
-const markAllMessagesAsRead = (sender, receiver, token) => {
-    return axios.put(`${API_URL}/mark-read`, { sender, receiver }, { headers: { Authorization: `Bearer ${token}` } });
+const sendMediaMessage = (formData, token) => {
+    return axios.post(`${API_URL}/sendMedia`, formData,             {
+        headers: {Authorization: `Bearer ${token}`}
+    });
 };
+
 export default {
     getPublicMessages,
     getPrivateMessages,
-    markAllMessagesAsRead
+    sendMediaMessage,
 };
