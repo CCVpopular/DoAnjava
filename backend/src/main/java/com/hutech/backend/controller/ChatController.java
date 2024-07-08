@@ -8,6 +8,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,8 +45,8 @@ public class ChatController {
         return messageService.getPublicMessages();
     }
 
-    @GetMapping("/api/messages/private")
-    public List<Message> getPrivateMessages(@RequestParam String sender, @RequestParam String receiver) {
+    @GetMapping("/api/messages/private/{sender}/and/{receiver}")
+    public List<Message> getPrivateMessages(@PathVariable String sender, @PathVariable String receiver) {
         return messageService.getPrivateMessages(sender, receiver);
     }
 }
