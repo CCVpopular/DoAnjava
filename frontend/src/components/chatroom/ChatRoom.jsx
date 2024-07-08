@@ -67,9 +67,10 @@ const ChatRoom = () => {
 
     const onConnected = () => {
         setUserData({ ...userData, "connected": true });
-        stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+        // stompClient.subscribe('/chatroom/public', onMessageReceived);
         userJoin();
+        stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+
     }
 
     const userJoin = () => {
@@ -94,21 +95,31 @@ const ChatRoom = () => {
                 setPublicChats([...publicChats]);
                 break;
         }
+        
     }
 
     const onPrivateMessage = (payload) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
-        if (privateChats.get(payloadData.senderName)) {
-            privateChats.get(payloadData.senderName).push(payloadData);
-            setPrivateChats(new Map(privateChats));
-        } else { 
-            let list = [];
-            list.push(payloadData);
-            privateChats.set(payloadData.senderName, list);
-            setPrivateChats(new Map(privateChats));
-        }
+    
+        setPrivateChats(prevPrivateChats => {
+            const updatedChats = new Map(prevPrivateChats);
+            
+            let chatsToUpdate = updatedChats.get(payloadData.senderName);
+    
+            if (chatsToUpdate) {
+                chatsToUpdate = [...chatsToUpdate, payloadData]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
+                updatedChats.set(payloadData.senderName, chatsToUpdate);
+                console.log(updatedChats);
+            } else {
+                updatedChats.set(payloadData.senderName, [payloadData]);
+            }
+            
+            return updatedChats;
+        });
     }
+    
+    
 
     const onError = (err) => {
         console.log(err);
@@ -149,10 +160,34 @@ const ChatRoom = () => {
                 status: "MESSAGE"
             };
 
-            if (userData.username !== tab) {
-                privateChats.get(tab).push(chatMessage);
-                setPrivateChats(new Map(privateChats));
-            }
+            setPrivateChats(prevPrivateChats => {
+                const updatedChats = new Map(prevPrivateChats);
+                
+                let chatsToUpdate = updatedChats.get(tab);
+        
+                if (chatsToUpdate) {
+                    chatsToUpdate = [...chatsToUpdate, chatMessage]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
+                    updatedChats.set(tab, chatsToUpdate);
+                    console.log(updatedChats);
+                } else {
+                    updatedChats.set(tab, [chatMessage]);
+                }
+                
+                return updatedChats;
+            });
+
+            // setPrivateChats(prevPrivateChats => {
+            //     const updatedChats = prevPrivateChats;
+    
+            //     if (updatedChats.get(tab)) {
+            //         updatedChats.get(tab).push(chatMessage);
+            //     } else {
+            //         updatedChats.set(tab, [chatMessage]);
+            //     }
+    
+            //     return updatedChats;
+            // });
+    
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
 
             setUserData({ ...userData, "message": "" });
@@ -217,7 +252,6 @@ const ChatRoom = () => {
                     <div className="member-list">
                         <div className="search-box">
                             <div className="search-message">
-      
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
 
