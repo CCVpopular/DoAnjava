@@ -7,7 +7,8 @@ import MessageService from '../service/MessageService';
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
-import { BsEmojiGrin } from "react-icons/bs";
+import { MdVideoCall } from "react-icons/md";
+// import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
 
@@ -174,6 +175,7 @@ const ChatRoom = () => {
                             <div className="search-message">
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
+                                <button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>
                             </div>
                         </div>
                         <ul>

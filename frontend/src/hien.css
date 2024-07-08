@@ -73,14 +73,14 @@ body {
     flex-direction: row;
   }
   .chat-box{
-    box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.034),0 6.7px 5.3px rgba(0, 0, 0, 0.048),0 12.5px 10px rgba(0, 0, 0, 0.06),0 22.3px 17.9px rgba(0, 0, 0, 0.072),0 41.8px 33.4px rgba(0, 0, 0, 0.086),0 100px 80px rgba(0, 0, 0, 0.12);
+    box-shadow:0 2.8px 2.2px rgba(0, 0, 0, 0.84),0 6.7px 5.3px rgba(0, 0, 0, 0.88),0 12.5px 10px rgba(0, 0, 0, 0.8),0 22.3px 17.9px rgba(0, 0, 0, 0.72),0 41.8px 33.4px rgba(0, 0, 0, 0.86),0 100px 80px rgba(0, 0, 0, 0.82);
     margin:10px 10px;
     height: 550px;
     width: 100%;
     padding: 10px;
     display: flex;
     flex-direction: row;
-    background: rgba(255, 255, 255, 0.2)
+    background: rgba(255, 255, 255, 0.5)
   }
   
   .member-list{
@@ -99,6 +99,7 @@ body {
     border: 1px solid #000;
     overflow-y: auto; 
     overflow-x: hidden;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
   }
   
   .send-message{
@@ -352,4 +353,12 @@ form .input-message label {
     }
   }
 
+  @media (max-width: 760px) {
+    .chat-box{
+        height: 750px;
+        width: 100%;
+
+        flex-direction: row;
+    }
+}
   

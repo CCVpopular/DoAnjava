@@ -480,13 +480,79 @@ background: rgb(1, 164, 159);
 background: rgb(0, 198, 191);
 }
 
-#check{
-    display: none;
-    width: 23px;
-    height: 23px;
-    position: absolute;
-    top: 8%;
-    right: 5%;
+.findFriends{
+    width: 50%;
+    border-right: 15px solid rgba(255, 255, 255, 0.4);
+    padding: 10px;
+}
+
+.box-findFriend{
+    padding: 10px;
+}
+
+.box-findFriend input{
+    margin-top: 10px;
+}
+
+.box-listliFriend{
+    overflow-y: auto;
+}
+
+.box-listliFriend {
+    width: 100%;
+    /* box-shadow: 1px 1px 1px 1px black ; */
+}
+
+.listliFriend{
+    display: flex;
+    padding: 10px;
+    background: #c0e6df;
+    border:#000;
+    margin: 5px 2px;
+    box-shadow: 0 8px 8px -4px rgb(36, 36, 36);
+    border-radius: 10px;
+    color: #000000;
+    overflow: auto;
+}
+
+.box-listUlFriend{
+    padding: 10px;
+    margin: 5px;
+    overflow: auto;
+    max-height: 350px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
+}
+
+.box-listUlFriendAccecpt{
+    padding: 10px;
+    margin: 5px;
+    overflow: auto;
+    height: 450px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
+}
+
+.listliFriendName{
+    width: 100%;
+}
+
+.listliFriendBtn{
+    width: 50%;
+    margin-left: 5px;
+}
+
+.nen{
+    background: #c0e6df;
+}
+
+/* .box-listliFriend button{
+    display: 50%;
+    box-shadow: 1px 1px 1px 1px black ;
+} */
+
+.notificationsFriends{
+    width: 50%;
+    border-right: 15px solid rgba(255, 255, 255, 0.4);
+    padding: 10px;
 }
 
 /* edit navbar will be hidden when max-width: 950px */
@@ -564,6 +630,13 @@ background: rgb(0, 198, 191);
         left: 50%;
     }
 
+    .box-listUlFriend{
+        max-height: 300px;
+    }
+
+    .box-listUlFriendAccecpt{
+        max-height: 400px;
+    }
 }
 
 /* edit background will be hidden when max-width: 760px */
@@ -598,8 +671,20 @@ background: rgb(0, 198, 191);
     .navbar .logo h2{
         display: none;
     }
-}
 
+    .box-listUlFriend{
+        max-height: 280px;
+    }
+
+    .listliFriend{
+        display: block;
+    }
+    .listliFriendBtn{
+        width: 100%;
+        padding: 5px;
+        margin: 5px;
+    }
+}
 /*---------------------------------------------------------------------------------------------------------------- Shared btn login fa vs google */
 .loginBtn {
     box-sizing: border-box;
