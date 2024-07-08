@@ -79,4 +79,9 @@ public class FriendService {
         addFriendDto.setMessage("Friend Deny");
         return addFriendDto;
     }
+
+    public List<FriendList> getFriendListByUserId(int userId) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User Not found"));
+        return friendlistRepository.findByUser(user);
+    }
 }

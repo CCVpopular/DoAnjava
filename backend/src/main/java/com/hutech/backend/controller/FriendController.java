@@ -3,7 +3,9 @@ package com.hutech.backend.controller;
 import com.hutech.backend.dto.AddFriendDto;
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.AddFriend;
+import com.hutech.backend.entity.FriendList;
 import com.hutech.backend.entity.User;
+import com.hutech.backend.repository.FriendListRepository;
 import com.hutech.backend.service.FriendService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +15,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class FriendController {
@@ -39,5 +42,12 @@ public class FriendController {
     @PutMapping("/adminuser/denyFriend/{Id}")
     public ResponseEntity<AddFriendDto> DenyFriend(@PathVariable int Id){
         return ResponseEntity.ok(friendService.DenyFriend(Id));
+    }
+
+    @GetMapping("/adminuser/getFriends/{userId}")
+    public ResponseEntity<List<User>> getFriends(@PathVariable int userId) {
+        List<FriendList> friendList = friendService.getFriendListByUserId(userId);
+        List<User> friends = friendList.stream().map(FriendList::getFriend).collect(Collectors.toList());
+        return ResponseEntity.ok(friends);
     }
 }

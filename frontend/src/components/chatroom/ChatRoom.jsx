@@ -3,6 +3,7 @@ import SockJS from 'sockjs-client';
 import Stomp from 'stompjs';
 import UserService from '../service/UserService';
 import MessageService from '../service/MessageService';
+import PrivateMessageService from '../service/PrivateMessageService';
 
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
@@ -17,6 +18,7 @@ const ChatRoom = () => {
     const [selectedFile, setSelectedFile] = useState(null); // State cho tệp tin đã chọn
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
+    const [friendList, setFriendList] = useState([]);
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -26,7 +28,7 @@ const ChatRoom = () => {
 
     useEffect(() => {
         fetchUserData();
-        fetchMessages(); // Load tin nhắn khi component được mount
+        fetchMessages();
     }, []);
 
     useEffect(() => {
@@ -40,6 +42,8 @@ const ChatRoom = () => {
             const token = localStorage.getItem('token');
             const response = await UserService.getYourProfile(token);
             setUserData({ ...userData, username: response.user.name });
+            const friendListitem = await UserService.getFriends(response.user.id, token);
+            setFriendList(friendListitem);
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -50,25 +54,10 @@ const ChatRoom = () => {
             const token = localStorage.getItem('token');
             const publicResponse = await MessageService.getPublicMessages(token);
             setPublicChats(publicResponse.data);
-
-            // Fetch private messages for each sender
-            const privateResponse = await Promise.all(
-                [...privateChats.keys()].map(sender =>
-                    MessageService.getPrivateMessages(sender, userData.username, token)
-                )
-            );
-
-            // Process private messages
-            const privateMessagesMap = new Map(privateResponse.map((response, index) => [response.data.senderName, response.data.messages]));
-            setPrivateChats(privateMessagesMap);
         } catch (error) {
             console.error('Error fetching messages:', error);
         }
     };
-
-    useEffect(() => {
-        console.log(userData);
-    }, [userData]);
 
     const connect = () => {
         let Sock = new SockJS('http://localhost:8080/ws');
@@ -170,6 +159,30 @@ const ChatRoom = () => {
         }
     }
 
+    const fetchMessagesBetweenUsers = async (receiverName) => {
+        try {
+            setTab(receiverName);
+            const token = localStorage.getItem('token');
+            const response = await PrivateMessageService.getMessagesBetweenUsers(userData.username, receiverName, token);
+
+            let chatList = [];
+            response.forEach(message => {
+                var chatMessage = {
+                    senderName: message.senderName,
+                    receiverName: message.receiverName,
+                    message: message.message,
+                    status: message.status
+                };
+                chatList.push(chatMessage);
+            });
+
+            privateChats.set(receiverName, chatList);
+            setPrivateChats(new Map(privateChats));
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    }
+    
     const sendFile = async () => {
         if (selectedFile) {
             const formData = new FormData();
@@ -204,18 +217,20 @@ const ChatRoom = () => {
                     <div className="member-list">
                         <div className="search-box">
                             <div className="search-message">
+      
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
+
                                 <button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>
                             </div>
                         </div>
                         <ul>
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
-                            {[...privateChats.keys()]
-                                .filter(name => name !== userData.username) 
-                                .map((name, index) => (
-                                    <li onClick={() => { setTab(name) }} className={`member ${tab === name && "active"}`} key={index}>{name}</li>
+                            <ul>
+                                {friendList.map((friend) => (
+                                    <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name}</li>
                                 ))}
+                            </ul>
                         </ul>
                     </div>
                     {tab === "CHATROOM" && <div className="chat-content">
@@ -235,16 +250,18 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
+
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
+
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
                     {tab !== "CHATROOM" && <div className="chat-content">
                         <ul className="chat-messages">
-                            {[...privateChats.get(tab)].map((chat, index) => (
+                            {(privateChats.get(tab) || []).map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                                     <div className="message-data">{chat.message}</div>
@@ -254,10 +271,12 @@ const ChatRoom = () => {
                         </ul>
 
                         <div className="send-message">
+
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
+
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
