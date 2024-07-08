@@ -52,6 +52,7 @@ footer{
 /* edit icon menu reposive*/
 .navbar .menu-btn {
     display: none;
+    position: absolute;
     color: #000000;
     cursor: pointer;
     font-size: 1.5rem;
@@ -110,6 +111,7 @@ footer{
 
 /* edit login button in navbar */
 .navbar .login-btn{
+    /* display: flex; */
     border: none;
     outline: none;
     font-size: 1rem;
@@ -458,14 +460,43 @@ form button:hover {
     margin: 5px;
 }
 
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+/* Track */
+::-webkit-scrollbar-track {
+background: rgb(0, 68, 65);
+}
 
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: rgb(1, 164, 159);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: rgb(0, 198, 191);
+}
+
+#check{
+    display: none;
+    width: 23px;
+    height: 23px;
+    position: absolute;
+    top: 8%;
+    right: 5%;
+}
 
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
     .navbar :is(.menu-btn, .links .close-btn){
-        display: block;
+        /* display: none; */
     }
+
     .navbar {
+
         padding: 15px 0;
     }
     .navbar .logo img{
@@ -477,27 +508,60 @@ form button:hover {
     }
 
     .navbar .links {
-        position: fixed;
-        left: -100%;
-        top: 0;
-        width: 100%;
-        height: 100vh;
-        display: block;
-        padding-top: 60px;
-        text-align: center;
-        background: #f9d9bd;
-    }
-
-    .navbar .links a{
         color: #000000;
-        display: inline-flex;
-        margin: 20px 0;
+        display: block;
+        width: 100%;
+        /* margin: 10px 0; */
         font-size: 1.2rem;
+        text-align: center;
+        /* padding-top: 10px; */
+        padding-right: 45px;
     }
 
     .navbar .login-btn{
         font-size: 0.9rem;
         padding: 7px 10px;
+    }
+
+    .navbar .menu-btn{
+        right: 5%;
+        top: 5%;
+        display: none;
+    }
+
+    #check:checked~.iconsmenu-btn #menu-btn{
+        display: none;
+    }
+
+    #check:checked~.iconsclose-btn #close-btn{
+        display: block;
+    }
+
+    .navbar .logo h2{
+        position: absolute;
+        top: 25%;
+        left: 5%;
+        display: inline;
+    }
+
+    .navbar .login-btn{
+        display: none;
+    }
+
+    .navbar .links .close-btn {
+        display: none;
+        color: #000000;
+        cursor: pointer;
+        position: absolute;
+        right: 5%;
+        top: 5%;
+        font-size: 1.5rem;
+    }
+
+    .profile-page-container {
+        position: fixed;
+        top: 70%;
+        left: 50%;
     }
 
 }
@@ -529,6 +593,10 @@ form button:hover {
 
     .card h2 {
         padding-top: 10px;
+    }
+
+    .navbar .logo h2{
+        display: none;
     }
 }
 

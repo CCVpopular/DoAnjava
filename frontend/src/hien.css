@@ -278,6 +278,47 @@ form .input-message label {
   flex-direction: row;
 }
 
+.input-messageAll {
+  width: 100%;
+  height: 50px;
+  padding: 12px;
+  display: flex;
+  border-radius: 15px;
+  resize: none;
+  font-size: 1.2rem;
+}
+
+.input-messageAll::-webkit-scrollbar{
+  width: 0px;
+}
+
+.loader{
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #333333;
+}
+
+.loader::after{
+  content: "";
+  width: 75px;
+  height: 75px;
+  border: 15px solid #dddddd;
+  border-top-color: #24a38a;
+  border-radius: 50%;
+  animation: loading 1s ease infinite;
+}
+
+@keyframes loading{
+  from { transform: rotate(0turn);}
+  to { transform: rotate(1turn);}
+}
+
   @media (max-width: 980px) {
     .chat-messages{
         flex-direction: column;
@@ -301,9 +342,14 @@ form .input-message label {
       margin-left: 10px;
     }
 
+    .chat-box{
+      margin:10px 10px;
+      height: 500px;
+    }
+
+    .member-list{
+      width: 30%;
+    }
   }
 
-  @media (max-width: 980px) {
-    
-  }
   

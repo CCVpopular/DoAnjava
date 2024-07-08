@@ -6,6 +6,17 @@ const getPublicMessages = (token) => {
     return axios.get(`${API_URL}/public`, { headers: { Authorization: `Bearer ${token}` } });
 };
 
+const getPrivateMessages = (sender, receiver, token) => {
+    return axios.get(`${API_URL}/private`, { params: { sender, receiver }, headers: { Authorization: `Bearer ${token}` } });
+};
+const sendMediaMessage = (formData, token) => {
+    return axios.post(`${API_URL}/sendMedia`, formData,             {
+        headers: {Authorization: `Bearer ${token}`}
+    });
+};
+
 export default {
     getPublicMessages,
+    getPrivateMessages,
+    sendMediaMessage,
 };
