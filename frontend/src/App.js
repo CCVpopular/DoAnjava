@@ -51,13 +51,6 @@ function App() {
                 <Route path="/friends" element={<Friends/>}/>
               </>
             )}
-
-
-
-
-
-
-
             {UserService.adminOnly() && (
               <>
                 <Route path="/admin/user-management" element={<UserManagementPage />} />
