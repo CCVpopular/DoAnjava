@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -27,6 +26,25 @@ public class ChatService {
 
     public List<Message> getPrivateMessages(String sender, String receiver){
         return messageRepository.findBySenderNameAndReceiverNameOrReceiverNameAndSenderName(sender, receiver, sender, receiver);
+    }
+
+    //Phần đánh dấu tin nhắn da doc
+    public void markMessageAsRead(Integer messageId){
+        Message message = messageRepository.findById(messageId).orElseThrow(() -> new RuntimeException("Id Message Not Found!!!"));
+        message.setReadMessage(true);
+        messageRepository.save(message);
+    }
+    @Transactional
+    public void markAllMessagesAsRead(String sender, String receiver) {
+        List<Message> messages = messageRepository.findBySenderNameAndReceiverNameAndReadMessageFalse(sender, receiver);
+        for (Message message : messages) {
+            message.setReadMessage(true);
+        }
+        messageRepository.saveAll(messages);
+    }
+    public boolean isMessageRead(Integer messageId){
+        Message message = messageRepository.findById(messageId).orElseThrow(()-> new RuntimeException("Id Message Not Found!!!"));
+        return message.isReadMessage();
     }
 
 

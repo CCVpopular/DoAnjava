@@ -11,7 +11,11 @@ const getPrivateMessages = (sender, receiver, token) => {
 };
 
 
+const markAllMessagesAsRead = (sender, receiver, token) => {
+    return axios.put(`${API_URL}/mark-read`, { sender, receiver }, { headers: { Authorization: `Bearer ${token}` } });
+};
 export default {
     getPublicMessages,
-    getPrivateMessages
+    getPrivateMessages,
+    markAllMessagesAsRead
 };

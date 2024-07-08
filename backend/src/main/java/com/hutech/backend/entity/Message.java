@@ -20,4 +20,14 @@ public class Message {
     private String message;
     private String date;
     private Status status;
+    private boolean readMessage;
+    private StyleMessage styleMessage;
+
+    public void markAsRead(){
+        this.readMessage = true;
+    }
+    public boolean isRead(){
+        return this.readMessage;
+    }
+
 }
