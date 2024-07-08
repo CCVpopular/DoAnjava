@@ -34,14 +34,13 @@ function Navbar() {
                 <h2>CHAT CHIT</h2>
             </a>
             <ul className="links">
-                {!isAuthenticated && <li><Link to="/">Home</Link></li>}
-                {isAuthenticated && <li><Link to="/profile">Profile</Link></li>}
-                {isAuthenticated && <li><Link to="/chatroom">Chat</Link></li>}
-                {isAuthenticated && <li><Link to="/friends">Friends</Link></li>}
-                {isAdmin && <li><Link to="/admin/user-management">User Management</Link></li>}
-                {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Logout</Link></li>}
+                {!isAuthenticated && <li><Link to="/">Trang chủ</Link></li>}
+                {isAuthenticated && <li><Link to="/profile">Tài khoản</Link></li>}
+                {isAuthenticated && <li><Link to="/chatroom">Tin nhắn</Link></li>}
+                {isAuthenticated && <li><Link to="/friends">Bạn bè</Link></li>}
+                {isAdmin && <li><Link to="/admin/user-management">QL Tài khoản</Link></li>}
+                {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Đăng xuất</Link></li>}
             </ul>
-            <input className='checkbox' type='checkbox' id='check'></input>
             <button className="login-btn">
                 HelloWord
             </button>

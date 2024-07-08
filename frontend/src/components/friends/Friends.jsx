@@ -127,36 +127,58 @@ const Friends = () => {
         }
     };
     return (
-        <div className="user-management-container">
-            <div>
-                <label> ID Người Bạn Muốn Kết Bạn: </label>
-                <input type="text" value={friendName} onChange={handleFriendName} required />
-            </div>
-            <div>
-                {usersSearch.length > 0 && (
-                    <div>
-                        <h3>Kết quả tìm kiếm:</h3>                      
-                            {usersSearch.map((usersSearch) => (
-                                <ul key={usersSearch.id}>
-                                    <li>{usersSearch.name}</li>
-                                    <li>
-                                    <button onClick={() => AddFriend(usersSearch)}>Add Friend</button>
-                                    </li>
-                                </ul>
-                            ))}
+        <div className="container">
+            <div className="chat-box">
+                <div className="findFriends">
+                    <div className="box-findFriend">
+                        <h3>Người Bạn Muốn Kết Bạn: </h3>
+                        <input type="text" value={friendName} placeholder="Tìm kiếm bạn bè" onChange={handleFriendName} required />
                     </div>
-                )}
-            </div>
-            <div>
-            <h3>Notifications:</h3>
-                <ul>
-                    {notifications.map((notification, index) => (
-                        <li key={index}>{notification.user.name}
-                            <button onClick={() => AcceptFriend(notification.id)} >Chấp Nhận</button>
-                            <button onClick={() => DenyFriend(notification.id)} >Từ Chối</button>
-                        </li>
-                    ))}
-                </ul>
+                    <div>
+                        {usersSearch.length > 0 && (
+                            <div>
+                                <h3>Bạn Bè: </h3>  
+                                <br></br>
+                                <div className="box-listUlFriend">
+                                    {usersSearch.map((usersSearch) => (
+                                        <ul  key={usersSearch.id}>
+                                            <li className="box-listliFriend">
+                                                <div className="listliFriend">
+                                                    <div className="listliFriendName">
+                                                        {usersSearch.name}
+                                                    </div>
+                                                    <button className="listliFriendBtn" onClick={() => AddFriend(usersSearch)}>Thêm bạn bè</button>
+                                                </div>
+                                            </li>
+                                            {/* <li>
+                                            </li> */}
+                                        </ul>
+                                    ))}
+                                </div>                    
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="notificationsFriends">
+                    <h3>Lời Mời:</h3>
+                    <br></br>
+                    <div className="box-listUlFriendAccecpt">
+                        <ul>
+                            {notifications.map((notification, index) => (
+                                <li className="box-listliFriend" key={index}>
+                                    <div className="listliFriend">
+                                        <div className="listliFriendName">
+                                            {notification.user.name}
+                                        </div>
+                                        <button className="listliFriendBtn" onClick={() => AcceptFriend(notification.id)} >Chấp Nhận</button>
+                                        <button className="listliFriendBtn" onClick={() => DenyFriend(notification.id)} >Từ Chối</button>
+                                    </div>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     );
