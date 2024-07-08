@@ -72,8 +72,8 @@ public class ChatController {
         return messageService.getPublicMessages();
     }
 
-    @GetMapping("/api/messages/private")
-    public List<Message> getPrivateMessages(@RequestParam String sender, @RequestParam String receiver) {
+    @GetMapping("/api/messages/private/{sender}/and/{receiver}")
+    public List<Message> getPrivateMessages(@PathVariable String sender, @PathVariable String receiver) {
         return messageService.getPrivateMessages(sender, receiver);
     }
 
