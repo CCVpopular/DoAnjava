@@ -3,16 +3,14 @@ package com.hutech.backend.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.sql.Timestamp;
-
 @Entity
-@Table(name = "friends")
+@Table(name = "friendlist")
 @Data
-public class Friend {
+public class FriendList {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+    private int id;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -21,9 +19,4 @@ public class Friend {
     @ManyToOne
     @JoinColumn(name = "friend_id")
     private User friend;
-
-    private String status;
-
-    @Column(name = "created_at")
-    private Timestamp createdAt;
 }

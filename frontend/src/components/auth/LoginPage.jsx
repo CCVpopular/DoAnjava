@@ -19,6 +19,10 @@ const handleSubmit = async (e) => {
         if (userData.token) {
             localStorage.setItem('token', userData.token);
             localStorage.setItem('role', userData.role);
+            const response = await UserService.getYourProfile(userData.token);
+            localStorage.setItem('userId', response.user.id);
+            localStorage.setItem('userName', response.user.name);
+            localStorage.setItem('userEmail', response.user.email);
             navigate('/chatroom')
             window.location.reload();
         }else{
@@ -60,12 +64,12 @@ const handleSubmit = async (e) => {
                                 <label>Mật Khẩu </label>
                             </div>
                             <button type="submit">Đăng nhập</button>
-                            <button class="loginBtn loginBtn--facebook">
+                            {/* <button class="loginBtn loginBtn--facebook">
                                 Đăng nhập Facebook
                             </button>
                             <button class="loginBtn loginBtn--google">
                                 Đăng nhập Google
-                            </button>
+                            </button> */}
                         </form>
                         <div className="divForgotPassword">
                             <button class="forgotPasswordBtn"><Link to={`/forgotPassword`}>Quên Mật Khẩu</Link></button>

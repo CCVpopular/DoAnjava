@@ -26,7 +26,6 @@ function UserManagementPage() {
         try {
         // Prompt for confirmation before deleting the user
         const confirmDelete = window.confirm("Are you sure you want to delete this user?");
-
         const token = localStorage.getItem("token"); // Retrieve the token from localStorage
         if (confirmDelete) {
             await UserService.deleteUser(userId, token);
