@@ -2,10 +2,15 @@ package com.hutech.backend.controller;
 
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.dto.resetP;
+import com.hutech.backend.entity.Message;
+import com.hutech.backend.entity.Status;
 import com.hutech.backend.entity.User;
 import com.hutech.backend.service.UsersManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -73,5 +78,18 @@ public class UserController {
     @DeleteMapping("/admin/delete/{userId}")
     public ResponseEntity<ReqRes> deleteUSer(@PathVariable Integer userId){
         return ResponseEntity.ok(usersManagementService.deleteUser(userId));
+    }
+
+    @MessageMapping("/imOnline")
+    @SendTo("/chatroom/imOnline")
+    public Message handleMessage(@Payload Message message) {
+        Message savedMessage = message;
+        if (message.getStatus() == Status.LEAVE){
+            savedMessage = usersManagementService.setOffline(message);
+        }
+        else {
+            savedMessage = usersManagementService.setOnline(message);
+        }
+        return savedMessage;
     }
 }

@@ -1,24 +1,33 @@
-import Peer from 'peer.js';
-import { useEffect, useState } from 'react';
+// import Peer from 'peer.js';
+// import { useEffect, useState } from 'react';
 
-function VideoCall(){
-    const[userId, setPeerId] = useState(null)
+function VideoCall() {
+    // const[userId, setPeerId] = useState(null)
 
-    useEffect(() => {
-        const peer  = new Peer();
+    // useEffect(() => {
+    //     const peer  = new Peer();
         
-        peer.on('open', function(id){
-            setPeerId(id);
-        });
-    }, [])
+    //     peer.on('open', function(id){
+    //         setPeerId(id);
+    //     });
+    // }, [])
 
-    const call = {remotePeerId} => {
-        var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
-        getUserMedia({video:call('another-peers-id',)
+    // const call = {remotePeerId} => {
+    //     var getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia;
+    //     getUserMedia({video:call('another-peers-id',)
 
-        })
+    //     })
 
-    }
+    // }
+    return(
+        <div className="container">
+            <div className="chat-box">
+                
+                <h1>GỌi đê</h1>
+                
+            </div>
+        </div>
+    )
 
 }
 export default VideoCall;

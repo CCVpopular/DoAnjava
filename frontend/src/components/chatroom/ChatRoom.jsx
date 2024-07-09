@@ -9,6 +9,7 @@ import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
 import { MdVideoCall } from "react-icons/md";
+import { MdOutlineIosShare } from "react-icons/md";
 // import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
@@ -29,6 +30,11 @@ const ChatRoom = () => {
     useEffect(() => {
         fetchUserData();
         fetchMessages();
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
     }, []);
 
     useEffect(() => {
@@ -36,6 +42,16 @@ const ChatRoom = () => {
             connect();
         }
     }, [userData.username]);
+
+    const handleBeforeUnload = () => {
+        if (stompClient && userData.connected) {
+            var chatMessage = {
+                senderName: userData.username,
+                status: StatusEnum.LEAVE
+            };
+            stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage));
+        }
+    };
 
     const fetchUserData = async () => {
         try {
@@ -67,17 +83,55 @@ const ChatRoom = () => {
 
     const onConnected = () => {
         setUserData({ ...userData, "connected": true });
-        stompClient.subscribe('/chatroom/public', onMessageReceived);
-        stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+        // stompClient.subscribe('/chatroom/public', onMessageReceived);
         userJoin();
+        stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+        stompClient.subscribe('/user/public/imOnline', onUserOnline); 
+
     }
+
+    const StatusEnum = {
+        JOIN: "JOIN",
+        MESSAGE: "MESSAGE",
+        LEAVE: "LEAVE"
+    };
+    
+    const updateFriendStatus = (friend, onlineUserStatus) => {
+        switch (onlineUserStatus) {
+            case StatusEnum.JOIN:
+                console.log("=================================================");
+                return { ...friend, isOnline: true };
+            case StatusEnum.LEAVE:
+                console.log("-------------------------------------------------");
+                return { ...friend, isOnline: false };
+            default:
+                return friend;
+        }
+    };
+    
+    const onUserOnline = (payload) => {
+        const onlineUserStatus = JSON.parse(payload.body);
+        const updatedFriendList = friendList.map(friend => {
+            if (friend.name === onlineUserStatus.senderName) {
+                return updateFriendStatus(friend, onlineUserStatus.status);
+            }
+            return friend;
+        });
+    
+        setFriendList(updatedFriendList);
+    };
 
     const userJoin = () => {
         var chatMessage = {
             senderName: userData.username,
             status: "JOIN"
         };
-        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+
+        var chatMessage11 = {
+            senderName: userData.username,
+            status: StatusEnum.JOIN
+        };
+        stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage11));
     }
 
     const onMessageReceived = (payload) => {
@@ -94,21 +148,31 @@ const ChatRoom = () => {
                 setPublicChats([...publicChats]);
                 break;
         }
+        
     }
 
     const onPrivateMessage = (payload) => {
         console.log(payload);
         var payloadData = JSON.parse(payload.body);
-        if (privateChats.get(payloadData.senderName)) {
-            privateChats.get(payloadData.senderName).push(payloadData);
-            setPrivateChats(new Map(privateChats));
-        } else { 
-            let list = [];
-            list.push(payloadData);
-            privateChats.set(payloadData.senderName, list);
-            setPrivateChats(new Map(privateChats));
-        }
+    
+        setPrivateChats(prevPrivateChats => {
+            const updatedChats = new Map(prevPrivateChats);
+            
+            let chatsToUpdate = updatedChats.get(payloadData.senderName);
+    
+            if (chatsToUpdate) {
+                chatsToUpdate = [...chatsToUpdate, payloadData];
+                updatedChats.set(payloadData.senderName, chatsToUpdate);
+                console.log(updatedChats);
+            } else {
+                updatedChats.set(payloadData.senderName, [payloadData]);
+            }
+            
+            return updatedChats;
+        });
     }
+    
+    
 
     const onError = (err) => {
         console.log(err);
@@ -149,12 +213,23 @@ const ChatRoom = () => {
                 status: "MESSAGE"
             };
 
-            if (userData.username !== tab) {
-                privateChats.get(tab).push(chatMessage);
-                setPrivateChats(new Map(privateChats));
-            }
+            setPrivateChats(prevPrivateChats => {
+                const updatedChats = new Map(prevPrivateChats);
+                
+                let chatsToUpdate = updatedChats.get(tab);
+        
+                if (chatsToUpdate) {
+                    chatsToUpdate = [...chatsToUpdate, chatMessage]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
+                    updatedChats.set(tab, chatsToUpdate);
+                    console.log(updatedChats);
+                } else {
+                    updatedChats.set(tab, [chatMessage]);
+                }
+                
+                return updatedChats;
+            });
+    
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-
             setUserData({ ...userData, "message": "" });
         }
     }
@@ -217,7 +292,6 @@ const ChatRoom = () => {
                     <div className="member-list">
                         <div className="search-box">
                             <div className="search-message">
-      
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
 
@@ -228,7 +302,7 @@ const ChatRoom = () => {
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             <ul>
                                 {friendList.map((friend) => (
-                                    <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name}</li>
+                                    <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name} {friend.online ? <span className="online">online</span> : <span className="offline">offline</span>}</li>
                                 ))}
                             </ul>
                         </ul>
@@ -253,7 +327,7 @@ const ChatRoom = () => {
 
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
-                            <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
+                            <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
@@ -274,7 +348,7 @@ const ChatRoom = () => {
 
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
-                            <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
+                            <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>

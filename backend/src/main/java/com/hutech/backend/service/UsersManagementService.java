@@ -2,9 +2,7 @@ package com.hutech.backend.service;
 
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.dto.resetP;
-import com.hutech.backend.entity.FriendList;
-import com.hutech.backend.entity.PasswordResetToken;
-import com.hutech.backend.entity.User;
+import com.hutech.backend.entity.*;
 import com.hutech.backend.repository.FriendListRepository;
 import com.hutech.backend.repository.PasswordResetTokenRepository;
 import com.hutech.backend.repository.UserRepository;
@@ -284,5 +282,29 @@ public class UsersManagementService {
         }
         return reqRes;
 
+    }
+
+    public Message setOnline(Message message){
+        try {
+            User user = userRepository.findByName(message.getSenderName()).orElseThrow(() -> new RuntimeException("User Not found"));
+            user.setOnline(true);
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return message;
+    }
+
+    public Message setOffline(Message message){
+        try {
+            User user = userRepository.findByName(message.getSenderName()).orElseThrow(() -> new RuntimeException("User Not found"));
+            user.setOnline(false);
+            userRepository.save(user);
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+        return message;
     }
 }
