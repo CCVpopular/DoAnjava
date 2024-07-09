@@ -12,6 +12,8 @@ public class FriendList {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    private String connectionstring;
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
