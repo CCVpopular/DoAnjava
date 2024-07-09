@@ -82,6 +82,32 @@ function VideoCall() {
       currentCall.current = null; // Đặt lại ref của cuộc gọi hiện tại
     }
   };
+    return(
+        <div className="container">
+            <div id='callvideo' className="chat-box ">
+              <div className="divVideoCall">
+                {/* bang ma phong */}
+                <div className="getStringRoom">
+                  <h1 className='titleNameH1'>Mã phòng cuộc gọi:</h1>
+                  <input type="text" className='inputStringRoom' value={peerId}/>
+                  {/* bang nhap ma phong */}
+                  <h1 className='titleNameH1'>Nhập mã tham gia phòng:</h1>
+                  <input type="text"  className='inputStringRoom' value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
+                  <button onClick={() => call(remotePeerIdValue)}>Call</button>
+                  <button onClick={endCall}>End Call</button>
+                </div>
+
+                {/* bang video */}
+                <div className="videocallRoom">
+                  <div className="videocallRoom1">
+                      <video ref={currentUserVideoRef} />
+                  </div>
+                  <div className="videocallRoom2">
+                      <video ref={remoteVideoRef} />
+                  </div>
+                </div>
+              </div>
+            </div>
 
   const fetchConnectionStringAndCall = async(userId, friendId) => {
     try{

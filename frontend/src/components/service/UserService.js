@@ -165,12 +165,27 @@ class UserService{
         }
     }
 
+    static async getChatRooms(userId, token) {
+        try{
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/getChatRooms/${userId}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
     /**AUTHENTICATION CHECKER */
     static subscribers = [];
 
     static logout(){
         localStorage.removeItem('token')
         localStorage.removeItem('role')
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
         this.notifySubscribers();
     }
 

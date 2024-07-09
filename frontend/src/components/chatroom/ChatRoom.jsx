@@ -8,8 +8,11 @@ import PrivateMessageService from '../service/PrivateMessageService';
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
-import { MdVideoCall } from "react-icons/md";
+// import { MdVideoCall } from "react-icons/md";
+
+import Popup from '../popup/Popup';
 import { MdOutlineIosShare } from "react-icons/md";
+import { RiChatNewFill } from "react-icons/ri";
 // import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
@@ -20,6 +23,7 @@ const ChatRoom = () => {
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [friendList, setFriendList] = useState([]);
+    const [chatroomList, setChatRoomList] = useState([]);
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -30,11 +34,6 @@ const ChatRoom = () => {
     useEffect(() => {
         fetchUserData();
         fetchMessages();
-        window.addEventListener("beforeunload", handleBeforeUnload);
-
-        return () => {
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        };
     }, []);
 
     useEffect(() => {
@@ -44,22 +43,26 @@ const ChatRoom = () => {
     }, [userData.username]);
 
     const handleBeforeUnload = () => {
-        if (stompClient && userData.connected) {
-            var chatMessage = {
-                senderName: userData.username,
-                status: StatusEnum.LEAVE
-            };
-            stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage));
-        }
+        var chatMessage11 = {
+            senderName: userData.username,
+            status: StatusEnum.LEAVE
+        };
+        stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage11));
     };
 
     const fetchUserData = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await UserService.getYourProfile(token);
+            console.log(response.user.name);
             setUserData({ ...userData, username: response.user.name });
             const friendListitem = await UserService.getFriends(response.user.id, token);
             setFriendList(friendListitem);
+
+            const userid = localStorage.getItem('userId');
+            const response1 = await UserService.getChatRooms(userid, token);
+            setChatRoomList(response1);
+            
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -86,9 +89,16 @@ const ChatRoom = () => {
         // stompClient.subscribe('/chatroom/public', onMessageReceived);
         userJoin();
         stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
-        stompClient.subscribe('/user/public/imOnline', onUserOnline); 
-
+        stompClient.subscribe('/chatroom/imOnline', onUserOnline); 
+        stompClient.subscribe('/chatroom/newRoom', newChatRoom); 
     }
+
+    const newChatRoom = async (payload) => {
+        const userid = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+        const response = await UserService.getChatRooms(userid, token);
+        setChatRoomList(response);
+    };
 
     const StatusEnum = {
         JOIN: "JOIN",
@@ -96,29 +106,13 @@ const ChatRoom = () => {
         LEAVE: "LEAVE"
     };
     
-    const updateFriendStatus = (friend, onlineUserStatus) => {
-        switch (onlineUserStatus) {
-            case StatusEnum.JOIN:
-                console.log("=================================================");
-                return { ...friend, isOnline: true };
-            case StatusEnum.LEAVE:
-                console.log("-------------------------------------------------");
-                return { ...friend, isOnline: false };
-            default:
-                return friend;
-        }
-    };
-    
-    const onUserOnline = (payload) => {
-        const onlineUserStatus = JSON.parse(payload.body);
-        const updatedFriendList = friendList.map(friend => {
-            if (friend.name === onlineUserStatus.senderName) {
-                return updateFriendStatus(friend, onlineUserStatus.status);
-            }
-            return friend;
-        });
-    
-        setFriendList(updatedFriendList);
+    const onUserOnline = async (payload) => {
+        const token = localStorage.getItem('token');
+        const userid = localStorage.getItem('userId');
+        console.log("id cua nguoi dung" + userid);
+        const friendListitem = await UserService.getFriends(userid, token);
+        setFriendList(friendListitem);
+
     };
 
     const userJoin = () => {
@@ -221,7 +215,7 @@ const ChatRoom = () => {
                 if (chatsToUpdate) {
                     chatsToUpdate = [...chatsToUpdate, chatMessage]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
                     updatedChats.set(tab, chatsToUpdate);
-                    console.log(updatedChats);
+                    // console.log(updatedChats);
                 } else {
                     updatedChats.set(tab, [chatMessage]);
                 }
@@ -285,6 +279,29 @@ const ChatRoom = () => {
         }
     };
 
+
+
+
+
+    const [showPopup, setShowPopup] = useState(false);
+
+    const handleClickOpen = () => {
+        setShowPopup(true);
+    };
+
+    const handleClose = () => {
+        setShowPopup(false);
+    };
+
+    const handleSubmit = (name) => {
+        console.log('Tên đã nhập:', name);
+        var newRoom = {
+            userName: userData.username,
+            nameChatRoom: name
+        };
+        stompClient.send("/app/newChatRoom", {}, JSON.stringify(newRoom));
+    };
+
     return (
         <div className="container">
             {userData.connected ?
@@ -295,12 +312,20 @@ const ChatRoom = () => {
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
 
-                                <button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>
+                                {/*<button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>*/}
+                                {/* <button type="button" className="search-button" onClick={() => newChatRoom(userData.username)} >newchatroom</button> */}
+                                <button  type="button" className="search-button" onClick={handleClickOpen}><RiChatNewFill className='iconSearchMess' /></button>
+                                <Popup show={showPopup} onClose={handleClose} onSubmit={handleSubmit}/> 
+                                    {/* ownerName={userData.username}  */}
                             </div>
                         </div>
                         <ul>
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             <ul>
+                                {chatroomList.map((room) => (
+                                    <li key={room.id} className='member'>{room.nameChatRoom}</li>
+                                ))}
+                                <div>======================================================================</div>
                                 {friendList.map((friend) => (
                                     <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name} {friend.online ? <span className="online">online</span> : <span className="offline">offline</span>}</li>
                                 ))}
@@ -326,7 +351,7 @@ const ChatRoom = () => {
                         <div className="send-message">
 
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
-                            <input type="file" onChange={handleFileChange} />
+                            <input type="file" onChange={handleFileChange} hidden />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 

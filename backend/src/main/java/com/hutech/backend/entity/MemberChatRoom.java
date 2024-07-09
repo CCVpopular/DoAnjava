@@ -1,22 +1,19 @@
 package com.hutech.backend.entity;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.util.HashSet;
-import java.util.Set;
-
 @Entity
-@Table
+@Table(name = "memberchatroom")
 @Data
-public class ChatRoom {
+public class MemberChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String nameChatRoom;
+    private int memberId;
 
-    private int ownerId;
-
+    private int chatroomId;
 }
