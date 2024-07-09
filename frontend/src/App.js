@@ -16,7 +16,7 @@ import FriendRequestForm from './components/makefriend/FriendRequestForm';
 import AcceptFriendRequestForm from './components/makefriend/AcceptFriendRequestForm';
 import ForgotPasswordPage from './components/auth/ForgotPasswordPage';
 import ResetPassword from './components/auth/ResetPassword';
-
+import VideoCall from './components/videocall/VideoCall';
 
 
 function App() {
@@ -48,6 +48,7 @@ function App() {
                 <Route path="*" element={<Navigate to="/chatroom" />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/chatroom" element={<ChatRoom/>}/>
+                <Route path="/videocall" element={<VideoCall/>}/>
                 <Route path="/friends" element={<Friends/>}/>
               </>
             )}

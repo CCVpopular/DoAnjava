@@ -37,6 +37,7 @@ function Navbar() {
                 {!isAuthenticated && <li><Link to="/">Trang chủ</Link></li>}
                 {isAuthenticated && <li><Link to="/profile">Tài khoản</Link></li>}
                 {isAuthenticated && <li><Link to="/chatroom">Tin nhắn</Link></li>}
+                {isAuthenticated && <li><Link to="/videocall">Phòng thoại</Link></li>}
                 {isAuthenticated && <li><Link to="/friends">Bạn bè</Link></li>}
                 {isAdmin && <li><Link to="/admin/user-management">QL Tài khoản</Link></li>}
                 {isAuthenticated && <li><Link to="/" onClick={handleLogout}>Đăng xuất</Link></li>}
