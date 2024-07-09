@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class FriendService {
@@ -59,13 +60,16 @@ public class FriendService {
         friendRepository.save(acceptFriend);
         addFriendDto.setStatusCode(200);
         addFriendDto.setMessage("Friend Accepted");
+        UUID connetion = UUID.randomUUID();
         FriendList myself = new FriendList();
         myself.setUser(acceptFriend.getUser());
         myself.setFriend(acceptFriend.getFriend());
+        myself.setConnectionstring(connetion.toString());
         friendlistRepository.save(myself);
         FriendList friend = new FriendList();
         friend.setUser(acceptFriend.getFriend());
         friend.setFriend(acceptFriend.getUser());
+        friend.setConnectionstring(connetion.toString());
         friendlistRepository.save(friend);
         return addFriendDto;
     }
