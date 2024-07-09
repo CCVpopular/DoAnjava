@@ -23,6 +23,9 @@ public class FriendController {
     @Autowired
     private FriendService friendService;
 
+    @Autowired
+    private FriendListRepository friendListRepository;
+
     @MessageMapping("/add-friend")
     @SendTo("/addFriend/req")
     public AddFriend handleAddFriend(@Payload AddFriendDto addFriendDto) {
@@ -49,5 +52,15 @@ public class FriendController {
         List<FriendList> friendList = friendService.getFriendListByUserId(userId);
         List<User> friends = friendList.stream().map(FriendList::getFriend).collect(Collectors.toList());
         return ResponseEntity.ok(friends);
+    }
+
+    @GetMapping("/adminuser/connectionstring")
+    public ResponseEntity<String> getConnectionString(@RequestParam int userId, @RequestParam int friendId) {
+        FriendList friendList = friendListRepository.findByUserIdAndFriendId(userId, friendId);
+        if (friendList != null) {
+            return ResponseEntity.ok(friendList.getConnectionstring());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
     }
 }

@@ -22,5 +22,4 @@ public class FriendList {
     @JoinColumn(name = "friend_id")
     private User friend;
 
-    private String connectionString;
 }

@@ -27,6 +27,8 @@ public class FriendService {
     @Autowired
     private UserRepository userRepository;
 
+
+
     public AddFriend sendFriendRequest(AddFriendDto addFriendDto) {
         User user = userRepository.findById(addFriendDto.getUser()).orElseThrow(() -> new RuntimeException("User Not found"));
         User friend = userRepository.findById(addFriendDto.getFriend()).orElseThrow(() -> new RuntimeException("Friend Not found"));
