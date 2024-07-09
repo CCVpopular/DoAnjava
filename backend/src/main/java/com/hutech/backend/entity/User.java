@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -23,6 +25,16 @@ public class User implements UserDetails {
     private String password;
     private boolean isOnline;
     private String role;
+
+//    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+//    private List<ChatRoom> posts;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_chatrooms",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "chatroom_id"))
+    private Set<ChatRoom> chatrooms = new HashSet<>();
 
     @Column(name = "created_at")
     private Timestamp createdAt;
