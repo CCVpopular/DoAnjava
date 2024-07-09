@@ -29,6 +29,11 @@ const ChatRoom = () => {
     useEffect(() => {
         fetchUserData();
         fetchMessages();
+        window.addEventListener("beforeunload", handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener("beforeunload", handleBeforeUnload);
+        };
     }, []);
 
     useEffect(() => {
@@ -36,6 +41,16 @@ const ChatRoom = () => {
             connect();
         }
     }, [userData.username]);
+
+    const handleBeforeUnload = () => {
+        if (stompClient && userData.connected) {
+            var chatMessage = {
+                senderName: userData.username,
+                status: StatusEnum.LEAVE
+            };
+            stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage));
+        }
+    };
 
     const fetchUserData = async () => {
         try {
@@ -70,15 +85,52 @@ const ChatRoom = () => {
         // stompClient.subscribe('/chatroom/public', onMessageReceived);
         userJoin();
         stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
+        stompClient.subscribe('/user/public/imOnline', onUserOnline); 
 
     }
+
+    const StatusEnum = {
+        JOIN: "JOIN",
+        MESSAGE: "MESSAGE",
+        LEAVE: "LEAVE"
+    };
+    
+    const updateFriendStatus = (friend, onlineUserStatus) => {
+        switch (onlineUserStatus) {
+            case StatusEnum.JOIN:
+                console.log("=================================================");
+                return { ...friend, isOnline: true };
+            case StatusEnum.LEAVE:
+                console.log("-------------------------------------------------");
+                return { ...friend, isOnline: false };
+            default:
+                return friend;
+        }
+    };
+    
+    const onUserOnline = (payload) => {
+        const onlineUserStatus = JSON.parse(payload.body);
+        const updatedFriendList = friendList.map(friend => {
+            if (friend.name === onlineUserStatus.senderName) {
+                return updateFriendStatus(friend, onlineUserStatus.status);
+            }
+            return friend;
+        });
+    
+        setFriendList(updatedFriendList);
+    };
 
     const userJoin = () => {
         var chatMessage = {
             senderName: userData.username,
             status: "JOIN"
         };
-        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+
+        var chatMessage11 = {
+            senderName: userData.username,
+            status: StatusEnum.JOIN
+        };
+        stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage11));
     }
 
     const onMessageReceived = (payload) => {
@@ -108,7 +160,7 @@ const ChatRoom = () => {
             let chatsToUpdate = updatedChats.get(payloadData.senderName);
     
             if (chatsToUpdate) {
-                chatsToUpdate = [...chatsToUpdate, payloadData]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
+                chatsToUpdate = [...chatsToUpdate, payloadData];
                 updatedChats.set(payloadData.senderName, chatsToUpdate);
                 console.log(updatedChats);
             } else {
@@ -175,21 +227,8 @@ const ChatRoom = () => {
                 
                 return updatedChats;
             });
-
-            // setPrivateChats(prevPrivateChats => {
-            //     const updatedChats = prevPrivateChats;
-    
-            //     if (updatedChats.get(tab)) {
-            //         updatedChats.get(tab).push(chatMessage);
-            //     } else {
-            //         updatedChats.set(tab, [chatMessage]);
-            //     }
-    
-            //     return updatedChats;
-            // });
     
             stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
-
             setUserData({ ...userData, "message": "" });
         }
     }
@@ -262,7 +301,7 @@ const ChatRoom = () => {
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             <ul>
                                 {friendList.map((friend) => (
-                                    <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name}</li>
+                                    <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name} {friend.online ? <span className="online">online</span> : <span className="offline">offline</span>}</li>
                                 ))}
                             </ul>
                         </ul>
