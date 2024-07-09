@@ -32,6 +32,8 @@ public class FriendService {
         User friend = userRepository.findById(addFriendDto.getFriend()).orElseThrow(() -> new RuntimeException("Friend Not found"));
         AddFriend addFriend = friendRepository.findAllByUserAndFriendAndStatus(user, friend, "PENDING");
         AddFriend addFriend1 = friendRepository.findAllByUserAndFriendAndStatus(user, friend, "ACCEPT");
+        AddFriend addFriend3 = friendRepository.findAllByUserAndFriendAndStatus(friend, user, "PENDING");
+        AddFriend addFriend4 = friendRepository.findAllByUserAndFriendAndStatus(friend, user, "ACCEPT");
         AddFriend addFriendRequest = new AddFriend();
             addFriendRequest.setUser(user);
             addFriendRequest.setFriend(friend);
@@ -39,7 +41,7 @@ public class FriendService {
 
             addFriendRequest.setHasRead(addFriendDto.isHasRead());
             addFriendRequest.setCreatedAt(LocalDateTime.now());
-        if (addFriend == null && addFriend1 == null) {
+        if (addFriend == null && addFriend1 == null && addFriend3 == null && addFriend4 == null) {
             addFriendRequest.setStatus(addFriendDto.getStatus());
             friendRepository.save(addFriendRequest);
         }

@@ -171,6 +171,9 @@ class UserService{
     static logout(){
         localStorage.removeItem('token')
         localStorage.removeItem('role')
+        localStorage.removeItem('userId');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
         this.notifySubscribers();
     }
 
