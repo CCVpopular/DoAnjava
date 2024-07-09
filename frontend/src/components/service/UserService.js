@@ -165,6 +165,18 @@ class UserService{
         }
     }
 
+    static async getChatRooms(userId, token) {
+        try{
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/getChatRooms/${userId}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
     /**AUTHENTICATION CHECKER */
     static subscribers = [];
 
