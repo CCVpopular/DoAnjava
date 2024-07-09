@@ -5,11 +5,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="59932a99-7c82-490c-beaa-ef4f0daa51cb" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/controller/FriendController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/controller/FriendController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/entity/FriendList.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/entity/FriendList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/repository/FriendListRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/repository/FriendListRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/service/FriendService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/hutech/backend/service/FriendService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/videocall/VideoCall.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/videocall/VideoCall.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -82,7 +82,9 @@
       <workItem from="1720420497971" duration="2972000" />
       <workItem from="1720424295342" duration="1912000" />
       <workItem from="1720497822550" duration="478000" />
-      <workItem from="1720498323724" duration="1303000" />
+      <workItem from="1720498323724" duration="1799000" />
+      <workItem from="1720503877780" duration="148000" />
+      <workItem from="1720504068968" duration="3952000" />
     </task>
     <servers />
   </component>

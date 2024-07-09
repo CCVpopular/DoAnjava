@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import Peer from 'peerjs';
+import axios from 'axios';
 
 function VideoCall() {
   const [peerId, setPeerId] = useState('');
@@ -9,6 +10,8 @@ function VideoCall() {
   const peerInstance = useRef(null);
   const currentCall = useRef(null); // Ref để lưu trữ cuộc gọi hiện tại
 
+  const [userId, setUserId] = useState(''); // Thêm userId
+  const [friendId, setFriendId] = useState(''); // Thêm friendId
 
     useEffect(() => {
       const peer = new Peer();
@@ -105,8 +108,62 @@ function VideoCall() {
                 </div>
               </div>
             </div>
-        </div>
-    )
 
+  const fetchConnectionStringAndCall = async(userId, friendId) => {
+    try{
+      const response = await axios.get('/adminuser/connectionstring',{
+        params:{userId, friendId}
+      });
+      const connectionstring = response.data;
+      call(connectionstring);
+    }catch(error){
+      console.error('Error fetching connection string:', error);
+    }
+  };
+    // return(
+    //     <div className="container">
+    //         <div className="chat-box">
+    //             <h1>Current user id is {peerId}</h1>
+    //             <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
+    //             <button onClick={() => call(remotePeerIdValue)}>Call</button>
+    //             <button onClick={endCall}>End Call</button>
+    //             <div>
+    //                 <video ref={currentUserVideoRef} />
+    //             </div>
+    //             <div>
+    //                 <video ref={remoteVideoRef} />
+    //             </div>
+                
+    //         </div>
+    //     </div>
+    // )
+
+    return (
+      <div className="container">
+        <div className="chat-box">
+          <h1>Current user id is {peerId}</h1>
+          <input 
+            type="text" 
+            placeholder="User ID" 
+            value={userId} 
+            onChange={e => setUserId(e.target.value)} 
+          />
+          <input 
+            type="text" 
+            placeholder="Friend ID" 
+            value={friendId} 
+            onChange={e => setFriendId(e.target.value)} 
+          />
+          <button onClick={() => fetchConnectionStringAndCall(userId, friendId)}>Call</button>
+          <button onClick={endCall}>End Call</button>
+          <div>
+            <video ref={currentUserVideoRef} />
+          </div>
+          <div>
+            <video ref={remoteVideoRef} />
+          </div>
+        </div>
+      </div>
+    );
 }
 export default VideoCall;
