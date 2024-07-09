@@ -21,6 +21,7 @@ const ChatRoom = () => {
     const [publicChats, setPublicChats] = useState([]);
     const [tab, setTab] = useState("CHATROOM");
     const [friendList, setFriendList] = useState([]);
+    const [chatroomList, setChatRoomList] = useState([]);
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -31,13 +32,6 @@ const ChatRoom = () => {
     useEffect(() => {
         fetchUserData();
         fetchMessages();
-        window.addEventListener("beforeunload", handleBeforeUnload);
-        // window.addEventListener("unload", handleBeforeUnload);
-    
-        return () => {
-            window.removeEventListener("beforeunload", handleBeforeUnload);
-        //     window.removeEventListener("unload", handleBeforeUnload);
-        };
     }, []);
 
     useEffect(() => {
@@ -62,6 +56,11 @@ const ChatRoom = () => {
             setUserData({ ...userData, username: response.user.name });
             const friendListitem = await UserService.getFriends(response.user.id, token);
             setFriendList(friendListitem);
+
+            const userid = localStorage.getItem('userId');
+            const response1 = await UserService.getChatRooms(userid, token);
+            setChatRoomList(response1);
+            
         } catch (error) {
             console.error('Error fetching user data:', error);
         }
@@ -90,12 +89,13 @@ const ChatRoom = () => {
         stompClient.subscribe('/user/' + userData.username + '/private', onPrivateMessage);
         stompClient.subscribe('/chatroom/imOnline', onUserOnline); 
         stompClient.subscribe('/chatroom/newRoom', newChatRoom); 
-
     }
 
-    const newChatRoom = (payload) => {
-        // window.location.reload();
-        console.log("============================ Received new chat room:", payload);
+    const newChatRoom = async (payload) => {
+        const userid = localStorage.getItem('userId');
+        const token = localStorage.getItem('token');
+        const response = await UserService.getChatRooms(userid, token);
+        setChatRoomList(response);
     };
 
     const StatusEnum = {
@@ -320,6 +320,10 @@ const ChatRoom = () => {
                         <ul>
                             <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
                             <ul>
+                                {chatroomList.map((room) => (
+                                    <li key={room.id} className='member'>{room.nameChatRoom}</li>
+                                ))}
+                                <div>======================================================================</div>
                                 {friendList.map((friend) => (
                                     <li key={friend.id} onClick={() => fetchMessagesBetweenUsers(friend.name)} className={`member ${tab === friend.name && "active"}`}>{friend.name} {friend.online ? <span className="online">online</span> : <span className="offline">offline</span>}</li>
                                 ))}
