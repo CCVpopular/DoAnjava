@@ -8,10 +8,11 @@ import PrivateMessageService from '../service/PrivateMessageService';
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
-import { MdVideoCall } from "react-icons/md";
+// import { MdVideoCall } from "react-icons/md";
 
 import Popup from '../popup/Popup';
 import { MdOutlineIosShare } from "react-icons/md";
+import { RiChatNewFill } from "react-icons/ri";
 // import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
@@ -311,9 +312,9 @@ const ChatRoom = () => {
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
 
-                                <button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>
+                                {/*<button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>*/}
                                 {/* <button type="button" className="search-button" onClick={() => newChatRoom(userData.username)} >newchatroom</button> */}
-                                <button  type="button" className="search-button" onClick={handleClickOpen}>New Room</button>
+                                <button  type="button" className="search-button" onClick={handleClickOpen}><RiChatNewFill className='iconSearchMess' /></button>
                                 <Popup show={showPopup} onClose={handleClose} onSubmit={handleSubmit}/> 
                                     {/* ownerName={userData.username}  */}
                             </div>
@@ -346,7 +347,7 @@ const ChatRoom = () => {
                         <div className="send-message">
 
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
-                            <input type="file" onChange={handleFileChange} />
+                            <input type="file" onChange={handleFileChange} hidden />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 

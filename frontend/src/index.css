@@ -651,6 +651,50 @@ background: rgb(0, 198, 191);
     width: 50%;
 }
 
+
+.getStringRoom{
+    display: block;
+    padding: 10px;
+    height: 200px;
+    width: 30%;
+}
+
+.videocallRoom{
+    /* display: flex;*/
+    width: 500px; 
+}
+
+.titleNameH1{
+    display: flex;
+    font-size: 1.2rem;
+    padding: 10px;
+    width: 100%;
+}
+
+.inputStringRoom{
+    display: flex;
+    height: 50px;
+    margin: 5px;
+}
+
+.divVideoCall {
+    display: flex;
+}
+
+.videocallRoom {
+    display: flex;
+}
+
+.videocallRoom1 video {
+    width: 620px;
+    height: 500px;
+}
+
+.videocallRoom2 video {
+    width: 620px;
+    height: 500px;
+}
+
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
     .navbar :is(.menu-btn, .links .close-btn){
@@ -740,6 +784,37 @@ background: rgb(0, 198, 191);
 
     .tabox-listUserManagele{
         height: 350px;
+    }
+
+    .divVideoCall{
+        display: flex;
+        height: 300px;
+    }
+
+    .getStringRoom{
+        height: 100px;
+    }
+
+    .titleNameH1{
+        font-size: 1rem;
+    }
+
+    .videocallRoom {
+        display: block;
+    }
+
+    .videocallRoom1 video {
+        width: 400px;
+        height: auto;
+        padding-left: 100px;
+        margin: 0;
+    }
+    
+    .videocallRoom2 video {
+        width: 400px;
+        height: auto;
+        padding-left: 100px;
+        margin: 0;
     }
 }
 

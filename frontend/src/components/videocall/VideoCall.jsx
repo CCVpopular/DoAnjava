@@ -81,18 +81,29 @@ function VideoCall() {
   };
     return(
         <div className="container">
-            <div className="chat-box">
-                <h1>Current user id is {peerId}</h1>
-                <input type="text" value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
-                <button onClick={() => call(remotePeerIdValue)}>Call</button>
-                <button onClick={endCall}>End Call</button>
-                <div>
-                    <video ref={currentUserVideoRef} />
+            <div id='callvideo' className="chat-box ">
+              <div className="divVideoCall">
+                {/* bang ma phong */}
+                <div className="getStringRoom">
+                  <h1 className='titleNameH1'>Mã phòng cuộc gọi:</h1>
+                  <input type="text" className='inputStringRoom' value={peerId}/>
+                  {/* bang nhap ma phong */}
+                  <h1 className='titleNameH1'>Nhập mã tham gia phòng:</h1>
+                  <input type="text"  className='inputStringRoom' value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
+                  <button onClick={() => call(remotePeerIdValue)}>Call</button>
+                  <button onClick={endCall}>End Call</button>
                 </div>
-                <div>
-                    <video ref={remoteVideoRef} />
+
+                {/* bang video */}
+                <div className="videocallRoom">
+                  <div className="videocallRoom1">
+                      <video ref={currentUserVideoRef} />
+                  </div>
+                  <div className="videocallRoom2">
+                      <video ref={remoteVideoRef} />
+                  </div>
                 </div>
-                
+              </div>
             </div>
         </div>
     )
