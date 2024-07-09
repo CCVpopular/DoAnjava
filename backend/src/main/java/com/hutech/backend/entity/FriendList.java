@@ -19,4 +19,6 @@ public class FriendList {
     @ManyToOne
     @JoinColumn(name = "friend_id")
     private User friend;
+
+    private String connectionString;
 }
