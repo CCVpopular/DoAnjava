@@ -11,6 +11,7 @@ import { FaSearch } from "react-icons/fa";
 import { MdVideoCall } from "react-icons/md";
 
 import Popup from '../popup/Popup';
+import { MdOutlineIosShare } from "react-icons/md";
 // import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
@@ -350,7 +351,7 @@ const ChatRoom = () => {
 
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
-                            <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
+                            <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
@@ -371,7 +372,7 @@ const ChatRoom = () => {
 
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
-                            <button type="button" className="send-button" onClick={sendFile}>Gửi file</button>
+                            <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
 
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>

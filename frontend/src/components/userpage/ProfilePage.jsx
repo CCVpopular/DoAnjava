@@ -22,14 +22,28 @@ function ProfilePage() {
     };
 
     return (
-        <div className="profile-page-container">
-            <h2>Thông tin tài khoản</h2>
-            <p className="profileText">Họ tên: {profileInfo.name}</p>
-            <p className="profileText">Email: {profileInfo.email}</p>
-            <div className='contenerBtnUpdate' >
-                {profileInfo.role === "ADMIN" && (
-                    <button className="profileBtn"><Link className='profileLinkUpdateUser' to={`/update-user/${profileInfo.id}`}>Update This Profile</Link></button>
-                )}
+        <div className="container">
+            <div className='chat-box proFileContent'>
+                    <div class="form-content">
+                        <h2>Thông tin tài khoản</h2>
+                        <form>
+                            <div className="input-field" >
+                                <input type="text" value={profileInfo.name} />
+                                <label>Họ Tên </label>
+                            </div>
+                            <div className="input-field">
+                                <input type="text" value={profileInfo.email}/>
+                                <label>Email </label>
+                            </div>
+                        </form>
+                        <br></br>
+                        <div className='contenerBtnUpdate' >
+                            {profileInfo.role === "ADMIN" && (
+                                <button className="listliFriendName"><Link className='profileLinkUpdateUser' to={`/update-user/${profileInfo.id}`}>Update This Profile</Link></button>
+                            )}
+                        </div>
+                    </div>
+
             </div>
         </div>
     );

@@ -422,6 +422,12 @@ form button:hover {
     transform: translate(-50%, -100%);
 }
 
+.proFileContent{
+    display: flex;
+    justify-content: center;
+    margin: 10px;
+}
+
 .profile-page-container h2 {
     text-align: center;
     padding: 10px;
@@ -445,19 +451,9 @@ form button:hover {
     transition: 0.2s ease;
 }
 
-.profile-page-container .profileLinkUpdateUser {
+.profileLinkUpdateUser {
     text-decoration: none;
-    color: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.profile-page-container .profileBtn {
-    position:relative;
-    top:50%; 
-    left:0;
-    margin: 5px;
+    color: #000000;   
 }
 
 /* width */
@@ -523,6 +519,21 @@ background: rgb(0, 198, 191);
     box-shadow: rgba(0, 0, 0, 0.45) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
 }
 
+.box-listUserManage{
+    display: flex;
+    padding: 10px;
+    margin: 5px;
+    overflow-y: auto;
+    height: 450px;
+    box-shadow: rgba(0, 0, 0, 0.45) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.8) 0px 18px 36px -18px inset;
+}
+
+.user-management-container{
+    width: 1650px;
+    padding: 10px;
+    margin: 10px;
+}
+
 .box-listUlFriendAccecpt{
     padding: 10px;
     margin: 5px;
@@ -544,15 +555,100 @@ background: rgb(0, 198, 191);
     background: #c0e6df;
 }
 
-/* .box-listliFriend button{
-    display: 50%;
-    box-shadow: 1px 1px 1px 1px black ;
-} */
-
 .notificationsFriends{
     width: 50%;
     border-right: 15px solid rgba(255, 255, 255, 0.4);
     padding: 10px;
+}
+
+.profileBtn{
+    display: flex;
+    width: 100%;
+    text-align: center;
+}
+
+
+
+.tabox-listUserManagele{
+    overflow: auto;
+    width: auto;
+    height: 400px;
+}
+
+.tabox-listUserManagele th{
+    position: sticky;
+    top: 0;
+
+}
+
+/* customer table user manage */
+#customers {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+    overflow-y:auto;
+  }
+  
+  #customers td, #customers th {
+    border-bottom: 1px solid #ddd;
+    padding: 8px;
+    background-color: white;
+  }
+  
+  #customers th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #078d77;
+    color: white;
+  }
+
+  #customers table {
+    width: 100%;
+    page-break-inside:auto
+  }
+  
+  #customers th {
+    text-align: center;
+    height: 70px;
+  }
+
+  #customers tr {
+    text-align: center;
+    page-break-inside:avoid; page-break-after:auto
+  }
+
+.newUser h2{
+    padding: 10px;
+    text-align: center;
+}
+
+.reg-button{
+    margin-bottom: 10px;
+}
+.reg-buttonAddUser{
+    text-decoration: none;
+    color: white;
+    margin: 10px;
+}
+
+.nameupdateuser{
+    color: white;
+    text-decoration: none;
+}
+
+.btnacctionuser{
+    display: flex;
+    
+}
+
+.btntableuserdelete{
+    width: 50%;
+}
+
+.btntableuserupdate{
+    margin-left: 10px;
+    width: 50%;
 }
 
 /* edit navbar will be hidden when max-width: 950px */
@@ -636,6 +732,14 @@ background: rgb(0, 198, 191);
 
     .box-listUlFriendAccecpt{
         max-height: 400px;
+    }
+
+    .user-management-container{
+        width: 1650px;
+    }
+
+    .tabox-listUserManagele{
+        height: 350px;
     }
 }
 

@@ -39,38 +39,48 @@ function UserManagementPage() {
     };
 
     return (
-    <div className="user-management-container">
-        <h2>Users Management Page</h2>
-        <button className="reg-button">
-        {" "}
-        <Link to="/register">Add User</Link>
-        </button>
-        <table>
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {users.map((user) => (
-                    <tr key={user.id}>
-                        <td>{user.id}</td>
-                        <td>{user.name}</td>
-                        <td>{user.email}</td>
-                        <td>
-                            <button className="delete-button" onClick={() => deleteUser(user.id)}>Delete</button>
-                            <button>
-                                <Link to={`/update-user/${user.id}`}>Update</Link>
-                            </button>
-                        </td>
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-    </div>
+        <div className="container">
+            <div className="chat-box">
+                <div className="user-management-container">
+                    <div className="newUser">
+                        <h2>Quản Lý Người Dùng</h2>
+                        <button className="reg-button">
+                        {" "}
+                        <Link className="reg-buttonAddUser" to="/register">Thêm Người Dùng</Link>
+                        </button>
+                    </div>
+                    <div className="tabox-listUserManagele" >
+                        <table id="customers" className="table sticky">
+                            <thead>
+                                <tr>
+                                    <th>Mã</th>
+                                    <th>Tên</th>
+                                    <th>Email</th>
+                                    <th>Chọn</th>
+                                </tr>
+                            </thead>
+                            <tbody >
+                                    {users.map((user) => (
+                                        <tr  key={user.id}>
+                                            <td>{user.id}</td>
+                                            <td>{user.name}</td>
+                                            <td>{user.email}</td>
+                                            <td>
+                                                <div className="btnacctionuser">
+                                                    <button className="delete-button btntableuserdelete" onClick={() => deleteUser(user.id)}>Xóa</button>
+                                                    <button className="btntableuserupdate">
+                                                        <Link className="nameupdateuser" to={`/update-user/${user.id}`}>Cập Nhật</Link>
+                                                    </button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     );
 }
 

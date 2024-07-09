@@ -150,8 +150,6 @@ const Friends = () => {
                                                     <button className="listliFriendBtn" onClick={() => AddFriend(usersSearch)}>Thêm bạn bè</button>
                                                 </div>
                                             </li>
-                                            {/* <li>
-                                            </li> */}
                                         </ul>
                                     ))}
                                 </div>                    
