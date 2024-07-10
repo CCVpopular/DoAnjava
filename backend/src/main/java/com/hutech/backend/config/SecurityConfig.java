@@ -36,8 +36,7 @@ public class SecurityConfig {
                         .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
                         .requestMatchers("/user/**").hasAnyAuthority("USER")
                         .requestMatchers("/ws/**").permitAll()
-                        .requestMatchers("/adminuser/**", "/adminuser/get-addFriendList/**", "/api/messages/**"
-                                        ).hasAnyAuthority("USER", "ADMIN")
+                        .requestMatchers("/adminuser/**", "/adminuser/get-addFriendList/**", "/api/messages/**").hasAnyAuthority("USER", "ADMIN")
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(

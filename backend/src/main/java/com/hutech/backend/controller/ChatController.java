@@ -77,5 +77,9 @@ public class ChatController {
         return messageService.getPrivateMessages(sender, receiver);
     }
 
+    @GetMapping("/api/messages/chatroom/{roomid}")
+    public List<Message> getChatRoomMessages(@PathVariable int roomid) {
+        return messageService.getChatRoomMessages(roomid);
+    }
 
 }
