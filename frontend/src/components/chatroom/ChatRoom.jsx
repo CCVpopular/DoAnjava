@@ -423,29 +423,7 @@ const ChatRoom = () => {
                             </ul>
                         </ul>
                     </div>
-                    {tab === "CHATROOM" && <div className="chat-content">
-                        <ul className="chat-messages">
-                            {publicChats.map((chat, index) => (
-                                <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
-                                    {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
-                                    <div className="message-data">
-                                        <img src={chat.mediaUrl}  alt="Attached Image" />
-                                    </div>
-                                    )}
-                                    <div className="message-data">{chat.message}</div>
-                                    {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
-                                </li>
-                            ))}
-                        </ul>
-                        <div className="send-message">
-                            <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
-                            <input type="file" onChange={handleFileChange} hidden />
-                            <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
-                            {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-                            <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
-                        </div>
-                    </div>}
+                    
                     {tab !== "CHATROOM" && <div className="chat-content">
                         <ul className="chat-messages">
                             {(privateChats.get(tab) || []).map((chat, index) => (
