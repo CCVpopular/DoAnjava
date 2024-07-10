@@ -5,6 +5,8 @@ function VideoCall() {
   const [peerId, setPeerId] = useState('');
   const [remotePeerIdValue, setRemotePeerIdValue] = useState('');
   const [cameraOn, setCameraOn] = useState(true);
+  const [micOn, setMicOn] = useState(true); // State cho mic
+
   const remoteVideoRef = useRef(null);
   const currentUserVideoRef = useRef(null);
   const peerInstance = useRef(null);
@@ -99,6 +101,15 @@ function VideoCall() {
       setCameraOn(prevCameraOn => !prevCameraOn);
     }
   };
+
+  const toggleMic = () => {
+    if (currentMediaStream.current) {
+      currentMediaStream.current.getAudioTracks().forEach(track => {
+        track.enabled = !track.enabled;
+      });
+      setMicOn(prevMicOn => !prevMicOn);
+    }
+  };
   return (
     <div className="container">
       <div id='callvideo' className="chat-box ">
@@ -113,6 +124,7 @@ function VideoCall() {
             <button onClick={() => call(remotePeerIdValue)}>Call</button>
             <button onClick={endCall}>End Call</button>
             <button onClick={toggleCamera}>{cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}</button>
+            <button onClick={toggleMic}>{micOn ? 'Turn Off Mic' : 'Turn On Mic'}</button> {/* Button để bật/tắt mic */}
           </div>
 
           {/* Bang video */}

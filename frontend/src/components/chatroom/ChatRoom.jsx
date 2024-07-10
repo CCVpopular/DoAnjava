@@ -72,6 +72,7 @@ const ChatRoom = () => {
         try {
             const token = localStorage.getItem('token');
             const publicResponse = await MessageService.getPublicMessages(token);
+            console.log('Public messages retrieved successfully:', publicResponse.data); // Log dữ liệu tin nhắn công khai được lấy thành công
             setPublicChats(publicResponse.data);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -233,7 +234,7 @@ const ChatRoom = () => {
             setTab(receiverName);
             const token = localStorage.getItem('token');
             const response = await PrivateMessageService.getMessagesBetweenUsers(userData.username, receiverName, token);
-
+            console.log('Private messages retrieved successfully:', response); // Log dữ liệu tin nhắn riêng tư được lấy thành công
             let chatList = [];
             response.forEach(message => {
                 var chatMessage = {
@@ -302,6 +303,7 @@ const ChatRoom = () => {
         stompClient.send("/app/newChatRoom", {}, JSON.stringify(newRoom));
     };
 
+    
     return (
         <div className="container">
             {userData.connected ?
@@ -347,14 +349,11 @@ const ChatRoom = () => {
                                 </li>
                             ))}
                         </ul>
-
                         <div className="send-message">
-
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} hidden />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
@@ -363,19 +362,21 @@ const ChatRoom = () => {
                             {(privateChats.get(tab) || []).map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
+                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
+                                    <div className="message-data">
+                                        <img src={chat.mediaUrl}  alt="Attached Image" />
+                                    </div>
+                                    )}
                                     <div className="message-data">{chat.message}</div>
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                                 </li>
                             ))}
                         </ul>
-
                         <div className="send-message">
-
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
