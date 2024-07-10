@@ -412,9 +412,9 @@ const ChatRoom = () => {
                                 </li>
                             ))}
                         </ul>
-                        <div className="send-message">
+                        <div className="send-message setZindexx">
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
-                            <input type="file" onChange={handleFileChange} hidden />
+                            <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>

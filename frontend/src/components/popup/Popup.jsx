@@ -15,19 +15,28 @@ const Popup = ({ show, onClose, onSubmit}) => {
   };
 
   return (
-    <div className="popup">
+    <div className="popup setZindexx10">
       <div className="popup-inner">
-        <button className="close-btn" onClick={onClose}>X</button>
+        <button className="close-btn setclosePoppup" onClick={onClose}>X</button>
         <form onSubmit={handleSubmit}>
-          <label>
-            Nhập tên:
+          <label className='setnamenewroomchat'>
+            <div className="input-field setnamenewroomchat">
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+              />
+              <label>Nhập tên phòng chat mới </label>
+            </div>
+            {/* Nhập tên:
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-            />
+            /> */}
           </label>
-          <button type="submit">Submit</button>
+          <button type="submit">Tạo</button>
         </form>
       </div>
     </div>
