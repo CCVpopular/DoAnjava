@@ -13,5 +13,5 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
     List<User> findByNameContainingAndNameNot(String name, String myName);
     List<User> findByNameContainingAndNameNotAndIdNotIn(String nameFind, String nameNot, List<Integer> idsNotIn);
-
+    List<User> findByNameContainingAndIdNotIn(String nameFind, List<Integer> idsNotIn);
 }

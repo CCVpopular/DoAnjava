@@ -5,5 +5,6 @@ public enum StyleMessage {
     IMAGE,
     FILE,
     VOICE,
-    EMOJI
+    EMOJI,
+    INVITE
 }

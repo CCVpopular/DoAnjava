@@ -1,6 +1,7 @@
 package com.hutech.backend.controller;
 
 import com.hutech.backend.dto.NewChatRoomDto;
+import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.ChatRoom;
 import com.hutech.backend.entity.FriendList;
 import com.hutech.backend.entity.Message;
@@ -37,5 +38,10 @@ public class ChatRoomController {
     public ResponseEntity<List<ChatRoom>> getChatRooms(@PathVariable int userId) {
         List<ChatRoom> chatRooms = chatRoomService.getChatRooms(userId);
         return ResponseEntity.ok(chatRooms);
+    }
+
+    @GetMapping("/adminuser/member/{memBerId}/to/{chatRoomId}")
+    public ResponseEntity<ReqRes> getUsersByNameNotInChatRoom(@PathVariable int memBerId, @PathVariable int chatRoomId){
+        return ResponseEntity.ok(chatRoomService.addMemberToChatRoom(memBerId, chatRoomId));
     }
 }
