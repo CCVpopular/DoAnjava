@@ -6,7 +6,8 @@
   <component name="ChangeListManager">
     <list default="true" id="59932a99-7c82-490c-beaa-ef4f0daa51cb" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/videocall/VideoCall.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/videocall/VideoCall.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/chatroom/ChatRoom.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/chatroom/ChatRoom.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/hien.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/hien.css" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +83,8 @@
       <workItem from="1720503877780" duration="148000" />
       <workItem from="1720504068968" duration="3952000" />
       <workItem from="1720578922208" duration="1602000" />
-      <workItem from="1720588427662" duration="983000" />
+      <workItem from="1720588427662" duration="2185000" />
+      <workItem from="1720594574275" duration="2925000" />
     </task>
     <servers />
   </component>
