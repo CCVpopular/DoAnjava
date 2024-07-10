@@ -3,11 +3,7 @@ package com.hutech.backend.controller;
 import com.hutech.backend.dto.NewChatRoomDto;
 import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.ChatRoom;
-import com.hutech.backend.entity.FriendList;
-import com.hutech.backend.entity.Message;
-import com.hutech.backend.entity.User;
 import com.hutech.backend.service.ChatRoomService;
-import com.hutech.backend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -18,7 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class ChatRoomController {

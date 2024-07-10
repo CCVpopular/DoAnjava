@@ -14,6 +14,18 @@ class PrivateMessageService{
             throw err;
         }
     }
+
+    static async getMessagesBetweenChatRoom(roomid, token){
+        try{
+            const response = await axios.get(`${PrivateMessageService.BASE_URL}/api/messages/chatroom/${roomid}`,
+                {
+                    headers: {Authorization: `Bearer ${token}`}
+                })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
 }
 
 export default PrivateMessageService;
