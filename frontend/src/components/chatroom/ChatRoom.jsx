@@ -241,9 +241,12 @@ const ChatRoom = () => {
                     senderName: message.senderName,
                     receiverName: message.receiverName,
                     message: message.message,
-                    status: message.status
+                    status: message.status,
+                    styleMessage: message.styleMessage,
+                    mediaUrl: message.mediaUrl
                 };
                 chatList.push(chatMessage);
+                console.log(message.mediaUrl);
             });
 
             privateChats.set(receiverName, chatList);
@@ -339,11 +342,15 @@ const ChatRoom = () => {
                             {publicChats.map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
-                                    <div className="message-data">
+                                    {chat.mediaUrl && chat.styleMessage === "IMAGE" && 
+                                    <div>
+                                        <div className="message-data">
                                         <img src={chat.mediaUrl}  alt="Attached Image" />
+                                        <h3>da thanh cong</h3>
+                                        </div>
                                     </div>
-                                    )}
+       
+                                    }
                                     <div className="message-data">{chat.message}</div>
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                                 </li>
@@ -362,12 +369,10 @@ const ChatRoom = () => {
                             {(privateChats.get(tab) || []).map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
-                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
-                                    <div className="message-data">
+                                    {chat.styleMessage === 'IMAGE' && 
                                         <img src={chat.mediaUrl}  alt="Attached Image" />
-                                    </div>
-                                    )}
-                                    <div className="message-data">{chat.message}</div>
+                                    }
+                                    {chat.status === 'MESSAGE' && <div className="message-data">{chat.message}</div>}
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                                 </li>
                             ))}

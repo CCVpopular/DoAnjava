@@ -68,12 +68,12 @@ public class ChatService {
             Files.createDirectories(fileStorageLocation);
         }
         String fileName = file.getOriginalFilename();
-        String uniqueFileName = UUID.randomUUID().toString() + "_" + fileName;
+
         Path targetLocation = fileStorageLocation.resolve(fileName);
         Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
 
         // Trả về đường dẫn tới file đã lưu
-        return "/message_image/" + uniqueFileName;
+        return "message_image/" + fileName;
 
     }
 }
