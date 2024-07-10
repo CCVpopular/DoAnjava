@@ -62,6 +62,12 @@ public class UserController {
 
     }
 
+    @GetMapping("/adminuser/get-users-byNameNotInChatRoom/{nameFind}/butNot/{chatRoomId}")
+    public ResponseEntity<ReqRes> getUsersByNameNotInChatRoom(@PathVariable String nameFind, @PathVariable int chatRoomId){
+        return ResponseEntity.ok(usersManagementService.getUsersByNameNotInChatRoom(nameFind, chatRoomId));
+
+    }
+
     @PutMapping("/admin/update/{userId}")
     public ResponseEntity<ReqRes> updateUser(@PathVariable Integer userId, @RequestBody User reqres){
         return ResponseEntity.ok(usersManagementService.updateUser(userId, reqres));

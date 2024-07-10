@@ -4,6 +4,7 @@ import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.dto.resetP;
 import com.hutech.backend.entity.*;
 import com.hutech.backend.repository.FriendListRepository;
+import com.hutech.backend.repository.MemberChatRoomRepository;
 import com.hutech.backend.repository.PasswordResetTokenRepository;
 import com.hutech.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,9 @@ public class UsersManagementService {
 
     @Autowired
     private FriendListRepository friendListRepository;
+
+    @Autowired
+    private MemberChatRoomRepository memberChatRoomRepository;
 
     @Autowired
     private PasswordResetTokenRepository passwordResetTokenRepository;
@@ -211,6 +215,23 @@ public class UsersManagementService {
         return response;
     }
 
+    public ReqRes getUsersByNameNotInChatRoom(String nameFind, int chatRoomId) {
+        ReqRes response = new ReqRes();
+        try {
+            List<Integer> memberChatRooms = memberChatRoomRepository.findAllMemberIdByChatRoomId(chatRoomId);
+            List<User> usersByName = userRepository.findByNameContainingAndIdNotIn (nameFind, memberChatRooms);
+            if (usersByName.isEmpty()) {
+                throw new RuntimeException("Users Not found");
+            }
+            response.setUserList(usersByName);
+            response.setStatusCode(200);
+            response.setMessage("Users found successfully");
+        } catch (Exception e) {
+            response.setStatusCode(500);
+            response.setMessage("Error occurred: " + e.getMessage());
+        }
+        return response;
+    }
 
     public ReqRes deleteUser(Integer userId) {
         ReqRes reqRes = new ReqRes();
