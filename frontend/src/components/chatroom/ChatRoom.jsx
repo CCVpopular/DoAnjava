@@ -8,11 +8,12 @@ import PrivateMessageService from '../service/PrivateMessageService';
 import { MdOutlineGroups } from "react-icons/md";
 import { TbSend2 } from "react-icons/tb";
 import { FaSearch } from "react-icons/fa";
-import { MdVideoCall } from "react-icons/md";
+// import { MdVideoCall } from "react-icons/md";
 
 import Popup from '../popup/Popup';
 import Popuppaftr from '../popup/Popupaftr';
 import { MdOutlineIosShare } from "react-icons/md";
+import { RiChatNewFill } from "react-icons/ri";
 // import { BsEmojiGrin } from "react-icons/bs";
 
 var stompClient = null;
@@ -72,6 +73,7 @@ const ChatRoom = () => {
         try {
             const token = localStorage.getItem('token');
             const publicResponse = await MessageService.getPublicMessages(token);
+            console.log('Public messages retrieved successfully:', publicResponse.data); // Log dữ liệu tin nhắn công khai được lấy thành công
             setPublicChats(publicResponse.data);
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -286,7 +288,7 @@ const ChatRoom = () => {
             setTab(receiverName);
             const token = localStorage.getItem('token');
             const response = await PrivateMessageService.getMessagesBetweenUsers(userData.username, receiverName, token);
-
+            console.log('Private messages retrieved successfully:', response); // Log dữ liệu tin nhắn riêng tư được lấy thành công
             let chatList = [];
             response.forEach(message => {
                 var chatMessage = {
@@ -372,9 +374,9 @@ const ChatRoom = () => {
                                 <input type="text" className="input-message" maxLength={50} placeholder="Tìm kiếm tin nhắn" />
                                 <button type="button" className="search-button" ><FaSearch  className='iconSearchMess'/></button>
 
-                                <button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>
+                                {/*<button type="button" className="search-button" ><MdVideoCall  className='iconSearchMess'/></button>*/}
                                 {/* <button type="button" className="search-button" onClick={() => newChatRoom(userData.username)} >newchatroom</button> */}
-                                <button  type="button" className="search-button" onClick={handleClickOpen}>New Room</button>
+                                <button  type="button" className="search-button" onClick={handleClickOpen}><RiChatNewFill className='iconSearchMess' /></button>
                                 <Popup show={showPopup} onClose={handleClose} onSubmit={handleSubmit}/> 
                                     {/* ownerName={userData.username}  */}
                             </div>
@@ -410,14 +412,11 @@ const ChatRoom = () => {
                                 </li>
                             ))}
                         </ul>
-
                         <div className="send-message">
-
                             <textarea type="text" className="input-messageAll" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
-                            <input type="file" onChange={handleFileChange} />
+                            <input type="file" onChange={handleFileChange} hidden />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-
                             <button type="button" className="send-button" onClick={sendValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
@@ -426,19 +425,23 @@ const ChatRoom = () => {
                             {(privateChats.get(tab) || []).map((chat, index) => (
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
+                                    
                                     <div className="message-data">{chat.message} {chat.senderName !== userData.username && chat.styleMessage === "INVITE" && <button onClick={() => addUserToChatRoom(chat.chatRoomid)} >Chấp Nhận</button>}</div>
+                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
+                                    <div className="message-data">
+                                        <img src={chat.mediaUrl}  alt="Attached Image" />
+                                    </div>
+                                    )}
+                                    
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                                 </li>
                             ))}
                         </ul>
-
                         <div className="send-message">
-
                             <input type="text" className="input-message" placeholder="Nhập tin nhắn" maxLength={254} value={userData.message} onChange={handleMessage} />
                             <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-
                             <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
                         </div>
                     </div>}
