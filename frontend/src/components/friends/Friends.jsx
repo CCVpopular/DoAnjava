@@ -7,7 +7,6 @@ const Friends = () => {
 
     const [friendName, setFriendName] = useState('');
     const [usersSearch, setUsersSearch] = useState([]);
-    const [token, setToken] = useState('');
     const [myName, setmyName] = useState([]);
     const [stompClient, setStompClient] = useState(null);
     const [notifications, setNotifications] = useState([]);
@@ -18,7 +17,6 @@ const Friends = () => {
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem('token');
-            setToken(token);
             const response = await UserService.getYourProfile(token);
             setmyName(response);
             const userId = localStorage.getItem('userId');
@@ -39,6 +37,7 @@ const Friends = () => {
             try {
                 console.log("Searching for:", value);
                 console.log("myName:", myName.user.name); 
+                const token = localStorage.getItem('token');
                 const response = await UserService.getUsersByName(myName.user.name, value, token);
                 console.log("Search response:", response); 
                 setUsersSearch(response.userList || []); 
@@ -102,11 +101,12 @@ const Friends = () => {
         }
     }
 
-    const AcceptFriend = async (id) => {
+    const AcceptFriend = async (idf) => {
         try {
-            await UserService.acceptFriend(id, token);
+            const token = localStorage.getItem('token');
+            const response = await UserService.acceptFriend(idf, token);
             setNotifications((prevNotifications) =>
-                prevNotifications.filter((notification) => notification.id !== id)
+                prevNotifications.filter((notification) => notification.id !== idf)
             );
         } 
         catch (error) {
@@ -115,11 +115,12 @@ const Friends = () => {
     };
 
 
-    const DenyFriend = async (id) => {
+    const DenyFriend = async (idf) => {
         try {
-            await UserService.denyFriend(id, token);
+            const token = localStorage.getItem('token');
+            const response = await UserService.denyFriend(idf, token);
             setNotifications((prevNotifications) =>
-                prevNotifications.filter((notification) => notification.id !== id)
+                prevNotifications.filter((notification) => notification.id !== idf)
             );
         } 
         catch (error) {

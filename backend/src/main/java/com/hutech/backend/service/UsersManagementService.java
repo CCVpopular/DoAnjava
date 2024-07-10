@@ -71,14 +71,14 @@ public class UsersManagementService {
         ReqRes response = new ReqRes();
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
-            var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow();
+            var user = userRepository.findByEmail(loginRequest.getEmail()).orElseThrow(()->new RuntimeException("Sai EWmail Hoac Mat Khau"));
             var jwt = jwtUtils.generateToken(user);
             var refreshToken = jwtUtils.generateRefreshToken(new HashMap<>(), user);
             response.setStatusCode(200);
             response.setToken(jwt);
             response.setRole(user.getRole());
             response.setRefreshToken(refreshToken);
-            response.setExpirationTime("24Hrs");
+            response.setExpirationTime("300Hrs");
             response.setMessage("Successfully Logged In");
 
         }catch (Exception e){

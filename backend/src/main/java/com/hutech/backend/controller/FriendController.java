@@ -37,12 +37,12 @@ public class FriendController {
         return ResponseEntity.ok(friendService.getaddFriendList(userId));
     }
 
-    @PutMapping("/adminuser/acceptFriend/{Id}")
+    @GetMapping("/adminuser/acceptFriend/{Id}")
     public ResponseEntity<AddFriendDto> AcceptFriend(@PathVariable int Id){
         return ResponseEntity.ok(friendService.AcceptFriend(Id));
     }
 
-    @PutMapping("/adminuser/denyFriend/{Id}")
+    @GetMapping("/adminuser/denyFriend/{Id}")
     public ResponseEntity<AddFriendDto> DenyFriend(@PathVariable int Id){
         return ResponseEntity.ok(friendService.DenyFriend(Id));
     }
