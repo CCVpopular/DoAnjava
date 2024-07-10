@@ -475,7 +475,7 @@ const ChatRoom = () => {
                                 <button type="button" className="send-button" onClick={sendPrivateChatRoomValue}><TbSend2 className='iconSendMess'/></button>
                             }                          
                         </div>
-                    </div>
+                    </div>}
                 </div>
                 :
                 <div>
