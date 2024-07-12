@@ -730,6 +730,13 @@ background: rgb(0, 198, 191);
         /* display: none; */
     }
 
+    .fix-hinh{
+        display: flex;
+        height: auto;
+        
+        min-width: 25px;
+    }
+
     .navbar {
 
         padding: 15px 0;
@@ -960,3 +967,9 @@ background: rgb(0, 198, 191);
   }
 
   /*---------------------------------------------------------------------------------------------------------------- Shared btn login fa vs google */
+
+  .fix-hinh{
+    display: flex;
+    height: auto;
+    max-width: 250px;
+  }
