@@ -39,7 +39,7 @@ function ProfilePage() {
                         <br></br>
                         <div className='contenerBtnUpdate' >
                             {profileInfo.role === "ADMIN" && (
-                                <button className="listliFriendName"><Link className='profileLinkUpdateUser' to={`/update-user/${profileInfo.id}`}>Update This Profile</Link></button>
+                                <button className="upProfileBtn"><Link className='profileLinkUpdateUser' to={`/update-user/${profileInfo.id}`}>Update This Profile</Link></button>
                             )}
                         </div>
                     </div>

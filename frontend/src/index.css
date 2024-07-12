@@ -695,6 +695,35 @@ background: rgb(0, 198, 191);
     height: 500px;
 }
 
+.videocallBtn{
+    margin: 1px;
+    background-color: #08a88d;
+    box-shadow: 1px 1px 5px black;
+    
+}
+
+.videocallBtn:hover{
+    background-color: #067461;
+}
+
+.upProfileBtn{
+    margin: 10px;
+    background-color: #08a88d;
+    box-shadow: 1px 1px 5px black;
+}
+
+.upProfileBtn:hover{
+    background-color: #067461;
+}
+
+.setZindexx1{
+    z-index: 1;
+}
+
+.setZindexx10{
+    z-index: 10;
+}
+
 /* edit navbar will be hidden when max-width: 950px */
 @media (max-width: 950px) {
     .navbar :is(.menu-btn, .links .close-btn){

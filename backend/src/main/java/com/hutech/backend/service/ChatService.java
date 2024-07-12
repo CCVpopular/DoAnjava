@@ -2,6 +2,7 @@ package com.hutech.backend.service;
 
 import com.hutech.backend.entity.Message;
 import com.hutech.backend.entity.Status;
+import com.hutech.backend.entity.StyleMessage;
 import com.hutech.backend.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,9 +38,11 @@ public class ChatService {
         return messageRepository.findBySenderNameAndReceiverNameOrReceiverNameAndSenderName(sender, receiver, sender, receiver);
     }
 
+
+    public List<Message> getChatRoomMessages(int roomid){
+        return messageRepository.findAllByChatRoomidAndStyleMessageIsNot(roomid, StyleMessage.INVITE);
+    }
     //Phần đánh dấu tin nhắn da doc
-
-
 
     public Message savePublicMessage(Message message) {
         LocalDateTime now  = LocalDateTime.now();

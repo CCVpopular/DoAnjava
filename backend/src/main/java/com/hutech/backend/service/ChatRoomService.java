@@ -1,6 +1,7 @@
 package com.hutech.backend.service;
 
 import com.hutech.backend.dto.NewChatRoomDto;
+import com.hutech.backend.dto.ReqRes;
 import com.hutech.backend.entity.ChatRoom;
 import com.hutech.backend.entity.MemberChatRoom;
 import com.hutech.backend.entity.User;
@@ -60,5 +61,26 @@ public class ChatRoomService {
             e.printStackTrace();
         }
         return chatRooms;
+    }
+
+    public ReqRes addMemberToChatRoom(int memBerId, int chatRoomId) {
+        ReqRes reqRes = new ReqRes();
+        try{
+            reqRes.setStatusCode(200);
+            reqRes.setMessage("The user is already in the chat room");
+            MemberChatRoom memberChatRoom = memberChatRoomRepository.findByMemberIdAndChatroomId(memBerId, chatRoomId);
+            if(memberChatRoom == null) {
+                memberChatRoom = new MemberChatRoom();
+                memberChatRoom.setChatroomId(chatRoomId);
+                memberChatRoom.setMemberId(memBerId);
+                memberChatRoomRepository.save(memberChatRoom);
+                reqRes.setMessage("The user has been add in the chat room");
+            }
+        }
+        catch(Exception e) {
+            reqRes.setStatusCode(500);
+            reqRes.setMessage("Error while adding the member" + e.getMessage());
+        }
+        return reqRes;
     }
 }

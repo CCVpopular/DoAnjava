@@ -121,10 +121,10 @@ function VideoCall() {
             {/* Bang nhap ma phong */}
             <h1 className='titleNameH1'>Nhập mã tham gia phòng:</h1>
             <input type="text" className='inputStringRoom' value={remotePeerIdValue} onChange={e => setRemotePeerIdValue(e.target.value)} />
-            <button onClick={() => call(remotePeerIdValue)}>Call</button>
-            <button onClick={endCall}>End Call</button>
-            <button onClick={toggleCamera}>{cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}</button>
-            <button onClick={toggleMic}>{micOn ? 'Turn Off Mic' : 'Turn On Mic'}</button> {/* Button để bật/tắt mic */}
+            <button className='videocallBtn' onClick={() => call(remotePeerIdValue)}>Call</button>
+            <button className='videocallBtn' onClick={endCall}>End Call</button>
+            <button className='videocallBtn' onClick={toggleCamera}>{cameraOn ? 'Turn Off Camera' : 'Turn On Camera'}</button>
+            <button className='videocallBtn' onClick={toggleMic}>{micOn ? 'Turn Off Mic' : 'Turn On Mic'}</button> {/* Button để bật/tắt mic */}
           </div>
 
           {/* Bang video */}

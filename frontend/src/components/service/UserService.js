@@ -129,9 +129,9 @@ class UserService{
         }
     }
 
-    static async acceptFriend(Id , token){
+    static async acceptFriend(Idf , token){
         try{
-            const response = await axios.put(`${UserService.BASE_URL}/adminuser/acceptFriend/${Id}`, 
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/acceptFriend/${Idf}`, 
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -143,7 +143,7 @@ class UserService{
 
     static async denyFriend(Id , token){
         try{
-            const response = await axios.put(`${UserService.BASE_URL}/adminuser/denyFriend/${Id}`, 
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/denyFriend/${Id}`, 
             {
                 headers: {Authorization: `Bearer ${token}`}
             })
@@ -177,8 +177,33 @@ class UserService{
         }
     }
 
+    static async getUsersByNameNotInChatRoom(chatRoomId ,nameFind, token){
+        try{
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/get-users-byNameNotInChatRoom/${nameFind}/butNot/${chatRoomId}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
+    
+    static async addMemberChatRooms(memberId, chatRoomId, token) {
+        try{
+            const response = await axios.get(`${UserService.BASE_URL}/adminuser/member/${memberId}/to/${chatRoomId}`, 
+            {
+                headers: {Authorization: `Bearer ${token}`}
+            })
+            return response.data;
+        }catch(err){
+            throw err;
+        }
+    }
+
     /**AUTHENTICATION CHECKER */
-    static subscribers = [];
+    static subscribers = []; 
 
     static logout(){
         localStorage.removeItem('token')

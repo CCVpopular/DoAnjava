@@ -30,6 +30,8 @@ public class Message {
     @Enumerated(EnumType.STRING)
     private StyleMessage styleMessage;
 
+    private int chatRoomid;
+
     private String mediaUrl; // URL của hình ảnh hoặc tệp được lưu trữ
 
     public void markAsRead(){

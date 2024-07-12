@@ -11,6 +11,7 @@ import { FaSearch } from "react-icons/fa";
 // import { MdVideoCall } from "react-icons/md";
 
 import Popup from '../popup/Popup';
+import Popuppaftr from '../popup/Popupaftr';
 import { MdOutlineIosShare } from "react-icons/md";
 import { RiChatNewFill } from "react-icons/ri";
 // import { BsEmojiGrin } from "react-icons/bs";
@@ -24,6 +25,9 @@ const ChatRoom = () => {
     const [tab, setTab] = useState("CHATROOM");
     const [friendList, setFriendList] = useState([]);
     const [chatroomList, setChatRoomList] = useState([]);
+    const [isChatRoom, setIsChatRoom] = useState('');
+    const [chatRoomId, setChatRoomId] = useState('');
+    const [chatRoomName, setChatRoomName] = useState('');
     const [userData, setUserData] = useState({
         username: '',
         receivername: '',
@@ -41,14 +45,6 @@ const ChatRoom = () => {
             connect();
         }
     }, [userData.username]);
-
-    const handleBeforeUnload = () => {
-        var chatMessage11 = {
-            senderName: userData.username,
-            status: StatusEnum.LEAVE
-        };
-        stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage11));
-    };
 
     const fetchUserData = async () => {
         try {
@@ -117,33 +113,12 @@ const ChatRoom = () => {
     };
 
     const userJoin = () => {
-        var chatMessage = {
-            senderName: userData.username,
-            status: "JOIN"
-        };
 
         var chatMessage11 = {
             senderName: userData.username,
             status: StatusEnum.JOIN
         };
         stompClient.send("/app/imOnline", {}, JSON.stringify(chatMessage11));
-    }
-
-    const onMessageReceived = (payload) => {
-        var payloadData = JSON.parse(payload.body);
-        switch (payloadData.status) {
-            case "JOIN":
-                if (!privateChats.get(payloadData.senderName)) {
-                    privateChats.set(payloadData.senderName, []);
-                    setPrivateChats(new Map(privateChats));
-                }
-                break;
-            case "MESSAGE":
-                publicChats.push(payloadData);
-                setPublicChats([...publicChats]);
-                break;
-        }
-        
     }
 
     const onPrivateMessage = (payload) => {
@@ -166,8 +141,6 @@ const ChatRoom = () => {
             return updatedChats;
         });
     }
-    
-    
 
     const onError = (err) => {
         console.log(err);
@@ -180,22 +153,6 @@ const ChatRoom = () => {
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
-    };
-
-
-    const sendValue = async () => {
-        if (stompClient) {
-            if (userData.message.trim() !== "") {
-                var chatMessage = {
-                    senderName: userData.username,
-                    message: userData.message,
-                    status: "MESSAGE",
-                };
-                console.log(chatMessage);
-                stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
-                setUserData({ ...userData, message: "" });
-            }
-        }
     };
 
     const sendPrivateValue = async () => {
@@ -229,8 +186,102 @@ const ChatRoom = () => {
         }
     }
 
+    const sendPrivateChatRoomValue = async () => {
+        try{
+
+            if (stompClient && userData.message.trim() !== "") {
+
+                var chatMessage = {
+                    senderName: userData.username,
+                    receiverName: tab,
+                    message: userData.message,
+                    status: "MESSAGE",
+                    styleMessage: "TEXT",
+                    chatRoomid: chatRoomId
+                };
+    
+                setPrivateChats(prevPrivateChats => {
+                    const updatedChats = new Map(prevPrivateChats);
+                    
+                    let chatsToUpdate = updatedChats.get(tab);
+            
+                    if (chatsToUpdate) {
+                        chatsToUpdate = [...chatsToUpdate, chatMessage]; // Tạo một bản sao mới của mảng chatsToUpdate và thêm payloadData vào đó
+                        updatedChats.set(tab, chatsToUpdate);
+                        // console.log(updatedChats);
+                    } else {
+                        updatedChats.set(tab, [chatMessage]);
+                    }
+                    
+                    return updatedChats;
+                });
+        
+                stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+                setUserData({ ...userData, "message": "" });
+            }
+        }
+        catch(error){
+            console.log(error);
+        }
+
+    }
+
+    const sendInvitePrivateValue = async (chatRoomId, senderName) => {
+        console.log("id room " + chatRoomId);
+        console.log("id sender " + senderName);
+        const chatRoomName = chatroomList.find((room) => room.id === chatRoomId);
+        if (stompClient) {
+
+            var chatMessage = {
+                senderName: userData.username,
+                receiverName: senderName,
+                message: userData.username + " Mời bạn đến với phòng " + chatRoomName.nameChatRoom,
+                status: "MESSAGE",
+                styleMessage: "INVITE",
+                chatRoomid: chatRoomId
+            };
+
+            setPrivateChats(prevPrivateChats => {
+                const updatedChats = new Map(prevPrivateChats);
+                
+                let chatsToUpdate = updatedChats.get(tab);
+        
+                if (chatsToUpdate) {
+                    chatsToUpdate = [...chatsToUpdate, chatMessage];
+                    updatedChats.set(tab, chatsToUpdate);
+                    // console.log(updatedChats);
+                } else {
+                    updatedChats.set(tab, [chatMessage]);
+                }
+                
+                return updatedChats;
+            });
+    
+            stompClient.send("/app/private-message", {}, JSON.stringify(chatMessage));
+            setUserData({ ...userData, "message": "" });
+        }
+    }
+
+    const addUserToChatRoom = async (chatRoomId) => {
+
+        try{
+            const token = localStorage.getItem('token');
+            const userid = localStorage.getItem('userId');
+            const response = await UserService.addMemberChatRooms(userid, chatRoomId, token);
+            console.log(response.statusCode);
+            console.log(response.message);
+
+            const response1 = await UserService.getChatRooms(userid, token);
+            setChatRoomList(response1);
+        }
+        catch(error){
+            console.log(error);
+        }
+    }
+
     const fetchMessagesBetweenUsers = async (receiverName) => {
         try {
+            setIsChatRoom("FALSE");
             setTab(receiverName);
             const token = localStorage.getItem('token');
             const response = await PrivateMessageService.getMessagesBetweenUsers(userData.username, receiverName, token);
@@ -244,12 +295,42 @@ const ChatRoom = () => {
                     status: message.status,
                     styleMessage: message.styleMessage,
                     mediaUrl: message.mediaUrl
+                    chatRoomid: message.chatRoomid
                 };
                 chatList.push(chatMessage);
                 console.log(message.mediaUrl);
             });
 
             privateChats.set(receiverName, chatList);
+            setPrivateChats(new Map(privateChats));
+        } catch (error) {
+            console.error('Error fetching messages:', error);
+        }
+    }
+
+    const fetchMessagesBetweenChatRoom = async (roomid, roomName) => {
+        try {
+            setChatRoomId(roomid);
+            setChatRoomName(roomName);
+            setIsChatRoom("TRUE");
+            setTab(roomName);
+            const token = localStorage.getItem('token');
+            const response = await PrivateMessageService.getMessagesBetweenChatRoom(roomid, token);
+            console.log('Private chat room messages retrieved successfully:', response); 
+            let chatList = [];
+            response.forEach(message => {
+                var chatMessage = {
+                    senderName: message.senderName,
+                    receiverName: message.receiverName,
+                    message: message.message,
+                    status: message.status,
+                    styleMessage: message.styleMessage,
+                    chatRoomid: message.chatRoomid
+                };
+                chatList.push(chatMessage);
+            });
+
+            privateChats.set(roomName, chatList);
             setPrivateChats(new Map(privateChats));
         } catch (error) {
             console.error('Error fetching messages:', error);
@@ -283,11 +364,8 @@ const ChatRoom = () => {
         }
     };
 
-
-
-
-
     const [showPopup, setShowPopup] = useState(false);
+    const [showPopupCf, setShowPopupCf] = useState(false);
 
     const handleClickOpen = () => {
         setShowPopup(true);
@@ -306,7 +384,14 @@ const ChatRoom = () => {
         stompClient.send("/app/newChatRoom", {}, JSON.stringify(newRoom));
     };
 
-    
+    const handleClickOpenCf = () => {
+        setShowPopupCf(true);
+    };
+
+    const handleCloseCf = () => {
+        setShowPopupCf(false);
+    };
+
     return (
         <div className="container">
             {userData.connected ?
@@ -325,10 +410,13 @@ const ChatRoom = () => {
                             </div>
                         </div>
                         <ul>
-                            <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li>
+                            {/* <li onClick={() => { setTab("CHATROOM") }} className={`member ${tab === "CHATROOM" && "active"}`}><MdOutlineGroups className='iconChatAll' /><div className='textChatAll'>Phòng chat tổng</div></li> */}
                             <ul>
                                 {chatroomList.map((room) => (
-                                    <li key={room.id} className='member'>{room.nameChatRoom}</li>
+                                    <div key={room.id}>
+                                        <li  className={`member ${tab === room.nameChatRoom && "active"}`} onClick={() => fetchMessagesBetweenChatRoom(room.id, room.nameChatRoom)}>{room.nameChatRoom}</li><button  type="button" className="search-button" onClick={handleClickOpenCf}>Mời bạn</button>
+                                        <Popuppaftr show={showPopupCf} onClose={handleCloseCf} chatRoomId={room.id} sendInvite={sendInvitePrivateValue} /> 
+                                    </div>
                                 ))}
                                 <div>======================================================================</div>
                                 {friendList.map((friend) => (
@@ -371,7 +459,13 @@ const ChatRoom = () => {
                                     {chat.styleMessage === 'IMAGE' && 
                                         <img src={chat.mediaUrl} className="fix-hinh" alt="Attached Image" />
                                     }
-                                    {chat.status === 'MESSAGE' && <div className="message-data">{chat.message}</div>}
+                                    {chat.status === 'MESSAGE' && <div className="message-data">{chat.message}</div>}                                  
+                                    <div className="message-data">{chat.message} {chat.senderName !== userData.username && chat.styleMessage === "INVITE" && <button onClick={() => addUserToChatRoom(chat.chatRoomid)} >Chấp Nhận</button>}</div>
+                                    {chat.mediaUrl && chat.styleMessage === 'IMAGE' && (
+                                    <div className="message-data">
+                                        <img src={chat.mediaUrl}  alt="Attached Image" />
+                                    </div>
+                                    )}                
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
                                 </li>
                             ))}
@@ -381,7 +475,12 @@ const ChatRoom = () => {
                             <input type="file" onChange={handleFileChange} />
                             <button type="button" className="send-button sendfile" onClick={sendFile}><MdOutlineIosShare className='iconSendMess'/></button>
                             {/* <button type="button" className="send-button" ><BsEmojiGrin className='iconSendMess'/></button> */}
-                            <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
+                            {isChatRoom === "FALSE" ? 
+                                <button type="button" className="send-button" onClick={sendPrivateValue}><TbSend2 className='iconSendMess'/></button>
+                                :
+                                //chat room
+                                <button type="button" className="send-button" onClick={sendPrivateChatRoomValue}><TbSend2 className='iconSendMess'/></button>
+                            }                          
                         </div>
                     </div>}
                 </div>
