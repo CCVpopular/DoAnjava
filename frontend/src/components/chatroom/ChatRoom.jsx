@@ -345,8 +345,7 @@ const ChatRoom = () => {
                                     {chat.mediaUrl && chat.styleMessage === "IMAGE" && 
                                     <div>
                                         <div className="message-data">
-                                        <img src={chat.mediaUrl}  alt="Attached Image" />
-                                        <h3>da thanh cong</h3>
+                                        <img src={chat.mediaUrl}  alt="Attached Image" />                               
                                         </div>
                                     </div>
        
@@ -370,7 +369,7 @@ const ChatRoom = () => {
                                 <li className={`message ${chat.senderName === userData.username && "self"}`} key={index}>
                                     {chat.senderName !== userData.username && <div className="avatar">{chat.senderName}</div>}
                                     {chat.styleMessage === 'IMAGE' && 
-                                        <img src={chat.mediaUrl}  alt="Attached Image" />
+                                        <img src={chat.mediaUrl} className="fix-hinh" alt="Attached Image" />
                                     }
                                     {chat.status === 'MESSAGE' && <div className="message-data">{chat.message}</div>}
                                     {chat.senderName === userData.username && <div className="avatar self">{chat.senderName}</div>}
