@@ -294,7 +294,7 @@ const ChatRoom = () => {
                     message: message.message,
                     status: message.status,
                     styleMessage: message.styleMessage,
-                    mediaUrl: message.mediaUrl
+                    mediaUrl: message.mediaUrl,
                     chatRoomid: message.chatRoomid
                 };
                 chatList.push(chatMessage);
